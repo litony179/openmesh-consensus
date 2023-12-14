@@ -6,6 +6,6 @@ const app = express();
 
 app.use(cors());
 
-app.use("/api/uploader/v1/encryption", v1UploaderRouter)
+app.use("/api/uploader/v1/encryption", v1UploaderRouter);
 
 export { app };

@@ -1,7 +1,33 @@
-import mongoose, {Schema, model} from 'mongoose';
+import { UUID } from 'crypto';
+import mongoose, {Schema, model, Document, Model} from 'mongoose';
 
+interface RawDataFields {
+    id : UUID;
+    type : String;
+    createdDate: Date;
+    buyer : String;
+    seller : String;
+    items : Array<String>;
+    method : String;
+    payment : Number;
+}
 
-const RawDataSchema = new Schema({
+interface RawDataDocument extends Document {
+    id : UUID;
+    type : String;
+    createdDate: Date;
+    buyer : String;
+    seller : String;
+    items : Array<String>;
+    method : String;
+    payment : Number;
+}
+
+interface RawDataModel extends Model<RawDataDocument> {
+    build(fields: RawDataFields) : RawDataDocument;
+}
+
+const rawDataSchema = new Schema({
     "id" : { type: Schema.Types.UUID },
     "type" : { type: String },
     "createdDate" : { type: Date },
@@ -12,6 +38,11 @@ const RawDataSchema = new Schema({
     "payment" : {type: Number },
 });
 
-const RawData = model("RawData", RawDataSchema);
+
+rawDataSchema.statics.build = (fields: RawDataFields) => {
+    return new RawData(fields);
+}
+
+const RawData = model<RawDataDocument, RawDataModel>("RawData", rawDataSchema);
 
 export { RawData };
