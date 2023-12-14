@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
-import { encryptdataHandler } from "../../controllers/encrypt-data-controller";
+import { retrieveDataHandler } from "../../controllers/retrieve-data-controller";
+import { uploadDataHandler } from "../../controllers/upload-data-controller";
 
 
 const router = express.Router();
@@ -10,6 +11,9 @@ router.get("/healthCheck", (req: Request, res: Response) => {
     });
 });
 
-router.post("/encryptdata", encryptdataHandler);
+router.post("/upload", uploadDataHandler);
+
+// router.get("/retrieve/:user/:data", encryptDataHandler);
+router.get("/retrieve", retrieveDataHandler);
 
 export {router as v1UploaderRouter};
