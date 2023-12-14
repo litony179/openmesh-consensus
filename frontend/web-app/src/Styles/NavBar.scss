@@ -1,0 +1,66 @@
+@import '../Styles/variables';
+
+/* Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+  min-height: 70px;
+  max-height: 120px;
+  background-color: primary-theme-color;
+  padding: 0 20px;
+  color: $primary-text-color;
+}
+
+/* Change the layout for smaller screens */
+@media screen and (max-width: 600px) {
+  .navbar {
+    height: max-content;
+    max-height: 400px;
+    flex-direction: column;
+  }
+}
+
+.navbar-home-link {
+  font-weight: bold;
+  font-size: 24px;
+  color: $primary-text-color;
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+}
+
+.navbar-link {
+  margin: 0 10px;
+  text-decoration: none;
+  color: $primary-text-color;
+  font-size: 16px;
+}
+
+.navbar-actions {
+  display: flex;
+}
+
+.btn-login,
+.btn-get-started {
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-login {
+  background: transparent;
+  color: $primary-text-color;
+}
+
+.btn-get-started {
+  background: $primary-background-color;
+  /* Adjust the button color to match the image */
+  color: $primary-text-color;
+}

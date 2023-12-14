@@ -61,73 +61,11 @@
     transform: rotate(360deg);
   }
 }
+
 body {
   background-color: #000000;
 }
 .w-100 {
   width: 100%;
   background-color: #2137fc;
-}
-
-/* Navbar.css */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10vh;
-  min-height: 70px;
-  max-height: 120px;
-  background-color: #2137fc;
-  padding: 0 20px;
-  color: white;
-}
-
-/* Change the layout for smaller screens */
-@media screen and (max-width: 600px) {
-  .navbar {
-    height: max-content;
-    max-height: 400px;
-    flex-direction: column;
-  }
-}
-
-.navbar-logo {
-  font-weight: bold;
-  font-size: 24px;
-}
-
-.navbar-links {
-  display: flex;
-}
-
-.navbar-link {
-  margin: 0 10px;
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-}
-
-.navbar-actions {
-  display: flex;
-}
-
-.btn-login,
-.btn-get-started {
-  border: none;
-  padding: 10px 20px;
-  margin-left: 10px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.btn-login {
-  background: transparent;
-  color: white;
-}
-
-.btn-get-started {
-  background: black;
-  /* Adjust the button color to match the image */
-  color: white;
 }

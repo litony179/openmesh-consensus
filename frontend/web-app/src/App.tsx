@@ -1,5 +1,7 @@
 import React from 'react';
-import './App.css';
+import './Styles/App.scss';
+import './Styles/NavBar.scss'
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoginPage } from './Pages/LoginPage';
 import { SignupPage } from './Pages/SignupPage';
