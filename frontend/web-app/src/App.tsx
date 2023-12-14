@@ -1,23 +1,23 @@
 import React from 'react';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LoginPage } from './Pages/LoginPage';
+import { SignupPage } from './Pages/SignupPage';
+import { HomePage } from './Pages/HomePage';
+import { NavBar } from './Components/NavBar';
 
 function App() {
   return (
-    <div className="w-100">
-      <nav className="navbar">
-        <div className="navbar-logo">CONSENSUS</div>
-        <div className="navbar-links">
-          <a href="/how-it-works" className="navbar-link">How it works</a>
-          <a href="/about" className="navbar-link">About</a>
-          <a href="/services" className="navbar-link">Services</a>
-        </div>
-        <div className="navbar-actions">
-          <button className="btn-login">Login</button>
-          <button className="btn-get-started">Get Started</button>
-        </div>
-      </nav>
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+      </Routes>
+    </BrowserRouter>
   );
+
 }
 
 export default App;
