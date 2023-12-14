@@ -7,7 +7,7 @@ interface RawDataFields {
     createdDate: Date;
     buyer : String;
     seller : String;
-    items : Array<String>;
+    stuff : Array<String>;
     method : String;
     payment : Number;
 }
@@ -18,7 +18,7 @@ interface RawDataDocument extends Document {
     createdDate: Date;
     buyer : String;
     seller : String;
-    items : Array<String>;
+    stuff : Array<String>;
     method : String;
     payment : Number;
 }
@@ -33,7 +33,7 @@ const rawDataSchema = new Schema({
     "createdDate" : { type: Date },
     "buyer" : {type: String },
     "seller" : {type: String },
-    "items" : {type: Array },
+    "stuff" : {type: Array },
     "method" : {type: String },
     "payment" : {type: Number },
 });

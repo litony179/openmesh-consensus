@@ -7,7 +7,7 @@ const RawDataSchema = new Schema({
     "createdDate" : { type: Date },
     "buyer" : {type: String },
     "seller" : {type: String },
-    "items" : {type: Array },
+    "stuff" : {type: Array },
     "method" : {type: String },
     "payment" : {type: Number },
 });
