@@ -1,5 +1,6 @@
 import crypto from 'crypto'
-import { Product, RawDataFormat } from './raw-data-format';
+import { hashNupdate } from './utils/hashNupdate';
+import { Body, Product, RawDataFormat } from '../../models/blueprint/raw-data-format';
 
 // post -> check -> 'encrypt' -> save
 
@@ -92,4 +93,76 @@ function encryptDataToJSON(chckData: RawDataFormat) {
     }
 }
 
-export { encryptDataToJSON, encryptDataToString };
+// JSON : String data format converted from Object type
+async function encryptDataToStringAsync(chckData: RawDataFormat) {
+    // parameter is trustful because already parsed in checking process by checkData function.
+    var productArr = chckData.body.products;
+
+    try {
+        // 1) find "products" in JSON object
+        if (Array.isArray(productArr)) {
+            if (productArr.length === 0) { // if products are empty === problem
+                throw new Error("The products are empty!");
+            } else {
+                // 2) encrypt "products" name & value
+                //  2-1) Use Promise.all + map(async function);
+                await Promise.all([
+                    productArr.map(async (p) => {
+                        p.productName = await hashNupdate(p.productName);
+                        p.value = await hashNupdate(String(p.value));
+                    })
+                ]);
+
+                // 3) stringify JSON object; object -> string -> encrypt
+                const encrypted = await hashNupdate(JSON.stringify(chckData.body));
+
+                return encrypted;
+            }
+        } else { // if products are not Array === problem
+            throw new TypeError("The products are not Array!");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function encryptDataToJSONAsync(chckData: RawDataFormat) {
+    // parameter is trustful because already parsed in checking process by checkData function.
+    var productArr = chckData.body.products;
+
+    try {
+        // 1) find "products" in JSON object
+        if (Array.isArray(productArr)) {
+            if (productArr.length === 0) { // if products are empty === problem
+                throw new Error("The products are empty!");
+            } else {
+                // 2) encrypt "products" name & value
+                //  2-1) Use Promise.all + map(async function);
+                await Promise.all([
+                    productArr.map(async (p) => {
+                        p.productName = await hashNupdate(p.productName);
+                        p.value = await hashNupdate(String(p.value));
+                    })
+                ]);
+
+                // 3) encrypt other values
+                //  3-1) repetitive activities = function
+                //  3-2) concern creating function for concurrency
+                await Promise.all([
+                    chckData.body.buyer = await hashNupdate(chckData.body.buyer),
+                    chckData.body.seller = await hashNupdate(chckData.body.seller),
+                    chckData.body.method = await hashNupdate(chckData.body.method),
+                    chckData.body.payment = await hashNupdate(String(chckData.body.payment))
+                ]);
+
+                return chckData;
+            }
+        } else { // if products are not Array === problem
+            throw new TypeError("The products are not Array!");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export { encryptDataToJSON, encryptDataToString, encryptDataToJSONAsync, encryptDataToStringAsync };

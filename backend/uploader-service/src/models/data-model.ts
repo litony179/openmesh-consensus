@@ -1,4 +1,4 @@
-import { RawDataFormat } from "../blueprint/raw-data-format";
+import { RawDataFormat } from "./blueprint/raw-data-format";
 import { Schema, model } from "mongoose";
 
 // Mongoose use Schema as scaffold

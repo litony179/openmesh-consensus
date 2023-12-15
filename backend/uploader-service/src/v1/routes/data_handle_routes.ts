@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { retrieveDataHandler } from "../../controllers/retrieve-data-controller";
-import { uploadDataHandler } from "../../controllers/upload-data-controller";
+import { retrieveDataHandler, retrieveAsyncHandler } from "../../controllers/retrieve-data-controller";
+import { uploadDataHandler, uploadAsyncHandler } from "../../controllers/upload-data-controller";
 
 
 const router = express.Router();
@@ -16,4 +16,7 @@ router.post("/upload", uploadDataHandler);
 // router.get("/retrieve/:user/:data", encryptDataHandler);
 router.get("/retrieve", retrieveDataHandler);
 
-export {router as v1UploaderRouter};
+router.post("/uploadA", uploadAsyncHandler);
+router.get("/retrieveA", retrieveAsyncHandler);
+
+export { router as v1UploaderRouter };
