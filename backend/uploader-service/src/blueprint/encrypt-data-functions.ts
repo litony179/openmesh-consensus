@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { Header, Body, Product, RawDataFormat } from './raw-data-format';
+import { Product, RawDataFormat } from './raw-data-format';
 
 // post -> check -> 'encrypt' -> save
 
@@ -20,7 +20,7 @@ function encryptDataToString(chckData: RawDataFormat) {
     //                                     .digest('hex');
     //         console.log(product.value);
     //     })
-        
+
     // } else {// if products are empty = problem, if products are not Array = problem
     //     console.log("!!The input data is not array or array is empty!!")
     // }
@@ -31,14 +31,14 @@ function encryptDataToString(chckData: RawDataFormat) {
             console.log("!! The input data is invalid: The fake contract recorded !!");
         } else {
             // 2) encrypt "products" name & value
-            productArr.forEach((product:Product) => {
+            productArr.forEach((product: Product) => {
                 product.productName = crypto.createHash('sha256')
-                                        .update(product.productName)
-                                        .digest('hex');
+                    .update(product.productName)
+                    .digest('hex');
                 console.log(product.productName);
                 product.value = crypto.createHash('sha256')
-                                        .update(`${product.value}`)
-                                        .digest('hex');
+                    .update(`${product.value}`)
+                    .digest('hex');
                 console.log(product.value);
             })
 
@@ -46,13 +46,13 @@ function encryptDataToString(chckData: RawDataFormat) {
             var encryptedJSON = JSON.stringify(chckData);
             // 4) encrypt again.
             encryptedJSON = crypto.createHash('sha256')
-                                    .update(encryptedJSON)
-                                    .digest('hex');
+                .update(encryptedJSON)
+                .digest('hex');
             console.log(encryptedJSON);
-            
+
             return encryptedJSON;
         }
-    }else { // if products are not Array === problem
+    } else { // if products are not Array === problem
         console.log("!! The input data is not Array !!");
     }
 }
@@ -67,18 +67,18 @@ function encryptDataToJSON(chckData: RawDataFormat) {
             console.log("!! The input data is invalid: The fake contract recorded !!");
         } else {
             // 2) encrypt "products" name & value
-            productArr.forEach((product:Product) => {
+            productArr.forEach((product: Product) => {
                 product.productName = crypto.createHash('sha256')
-                                        .update(product.productName)
-                                        .digest('hex');
+                    .update(product.productName)
+                    .digest('hex');
                 console.log(product.productName);
                 product.value = crypto.createHash('sha256')
-                                        .update(`${product.value}`)
-                                        .digest('hex');
+                    .update(`${product.value}`)
+                    .digest('hex');
                 console.log(product.value);
             })
 
-            
+
             // 3) encrypt other values
             chckData.body.buyer = crypto.createHash('sha256').update(chckData.body.buyer).digest('hex');
             chckData.body.seller = crypto.createHash('sha256').update(chckData.body.seller).digest('hex');
@@ -87,7 +87,7 @@ function encryptDataToJSON(chckData: RawDataFormat) {
 
             return chckData;
         }
-    }else { // if products are not Array === problem
+    } else { // if products are not Array === problem
         console.log("!! The input data is not Array !!");
     }
 }
