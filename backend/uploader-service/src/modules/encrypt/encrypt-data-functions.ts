@@ -8,23 +8,6 @@ import { Body, Product, RawDataFormat } from '../../models/blueprint/raw-data-fo
 function encryptDataToString(chckData: RawDataFormat) {
     // parameter is trustful because already parsed in checking process by checkData function.
     var productArr = chckData.body.products;
-    // // 1) find "products" in JSON object
-    // if (Array.isArray(productArr) && productArr.length !== 0) {
-    //     // 2) encrypt "products" name & value
-    //     productArr.forEach((product:Product) => {
-    //         product.name = crypto.createHash('sha256')
-    //                                     .update(product.name)
-    //                                     .digest('hex');
-    //         console.log(product.name);
-    //         product.value = crypto.createHash('sha256')
-    //                                     .update(`${product.value}`)
-    //                                     .digest('hex');
-    //         console.log(product.value);
-    //     })
-
-    // } else {// if products are empty = problem, if products are not Array = problem
-    //     console.log("!!The input data is not array or array is empty!!")
-    // }
 
     // 1) find "products" in JSON object
     if (Array.isArray(productArr)) {
