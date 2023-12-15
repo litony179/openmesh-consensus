@@ -1,14 +1,17 @@
-import { UUID } from "crypto";
+import { Schema } from "mongoose";
+
+interface Header {
+    id : Schema.Types.UUID;
+    type : string;
+    createdDate: Date;
+}
 
 interface Product {
-    name : string,
+    productName : string,
     value : string | number
 }
 
-interface RawDataFormat {
-    id : UUID | string;
-    type : string;
-    createdDate: Date | string;
+interface Body {
     buyer : string;
     seller : string;
     products : Array<Product>;
@@ -16,4 +19,42 @@ interface RawDataFormat {
     payment : number | string;
 }
 
-export { Product, RawDataFormat }
+// interface RawDataFormat {
+//     id : Schema.Types.UUID;
+//     type : string;
+//     createdDate: Date;
+//     buyer : string;
+//     seller : string;
+//     products : Array<Product>;
+//     method : string;
+//     payment : number | string;
+// }
+
+// interface RawDataFormat {
+//     header: {
+//         id : Schema.Types.UUID;
+//         type : string;
+//         createdDate: Date;
+//     },
+//     body: {
+//         buyer : string;
+//         seller : string;
+//         products : [
+//             {
+//                 productName: string,
+//                 value: number | string
+//             }
+//         ];
+//         method : string;
+//         payment : number | string;
+//     }
+// }
+
+interface RawDataFormat {
+    header: Header;
+    body: Body;
+}
+
+// export { Product, RawDataFormat }
+// export { RawDataFormat };
+export { Header, Body, Product, RawDataFormat };

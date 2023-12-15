@@ -1,12 +1,12 @@
 import crypto from 'crypto'
-import { Product, RawDataFormat } from './raw-data-format';
+import { Header, Body, Product, RawDataFormat } from './raw-data-format';
 
 // post -> check -> 'encrypt' -> save
 
 // JSON : String data format converted from Object type
 function encryptDataToString(chckData: RawDataFormat) {
     // parameter is trustful because already parsed in checking process by checkData function.
-    var productArr = chckData.products;
+    var productArr = chckData.body.products;
     // // 1) find "products" in JSON object
     // if (Array.isArray(productArr) && productArr.length !== 0) {
     //     // 2) encrypt "products" name & value
@@ -32,10 +32,10 @@ function encryptDataToString(chckData: RawDataFormat) {
         } else {
             // 2) encrypt "products" name & value
             productArr.forEach((product:Product) => {
-                product.name = crypto.createHash('sha256')
-                                        .update(product.name)
+                product.productName = crypto.createHash('sha256')
+                                        .update(product.productName)
                                         .digest('hex');
-                console.log(product.name);
+                console.log(product.productName);
                 product.value = crypto.createHash('sha256')
                                         .update(`${product.value}`)
                                         .digest('hex');
@@ -59,7 +59,7 @@ function encryptDataToString(chckData: RawDataFormat) {
 
 function encryptDataToJSON(chckData: RawDataFormat) {
     // parameter is trustful because already parsed in checking process by checkData function.
-    var productArr = chckData.products;
+    var productArr = chckData.body.products;
 
     // 1) find "products" in JSON object
     if (Array.isArray(productArr)) {
@@ -68,10 +68,10 @@ function encryptDataToJSON(chckData: RawDataFormat) {
         } else {
             // 2) encrypt "products" name & value
             productArr.forEach((product:Product) => {
-                product.name = crypto.createHash('sha256')
-                                        .update(product.name)
+                product.productName = crypto.createHash('sha256')
+                                        .update(product.productName)
                                         .digest('hex');
-                console.log(product.name);
+                console.log(product.productName);
                 product.value = crypto.createHash('sha256')
                                         .update(`${product.value}`)
                                         .digest('hex');
@@ -80,13 +80,10 @@ function encryptDataToJSON(chckData: RawDataFormat) {
 
             
             // 3) encrypt other values
-            chckData.id = crypto.createHash('sha256').update(chckData.id).digest('hex');
-            chckData.type = crypto.createHash('sha256').update(chckData.type).digest('hex');
-            chckData.createdDate = crypto.createHash('sha256').update(`${chckData.createdDate}`).digest('hex');
-            chckData.buyer = crypto.createHash('sha256').update(chckData.buyer).digest('hex');
-            chckData.seller = crypto.createHash('sha256').update(chckData.seller).digest('hex');
-            chckData.method = crypto.createHash('sha256').update(chckData.method).digest('hex');
-            chckData.payment = crypto.createHash('sha256').update(`${chckData.payment}`).digest('hex');
+            chckData.body.buyer = crypto.createHash('sha256').update(chckData.body.buyer).digest('hex');
+            chckData.body.seller = crypto.createHash('sha256').update(chckData.body.seller).digest('hex');
+            chckData.body.method = crypto.createHash('sha256').update(chckData.body.method).digest('hex');
+            chckData.body.payment = crypto.createHash('sha256').update(`${chckData.body.payment}`).digest('hex');
 
             return chckData;
         }
