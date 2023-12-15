@@ -11,3 +11,5 @@ function checkData(rawData:any):object {
 
     return rawData;
 };
+
+export { checkData };

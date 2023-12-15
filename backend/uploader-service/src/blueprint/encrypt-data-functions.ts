@@ -94,3 +94,5 @@ function encryptDataToJSON(chckData: RawDataFormat) {
         console.log("!! The input data is not Array !!");
     }
 }
+
+export { encryptDataToJSON, encryptDataToString };
