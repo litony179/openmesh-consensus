@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import '../Styles/App.scss';
 import '../Styles/Login.scss';
+import LoginRegisterImg from '../Components/login-register-img.jpeg';
 
 interface LoginState {
   email: string;
@@ -30,7 +31,7 @@ export const LoginPage: React.FC = () => {
   return (
     <>
       <div className='d-flex'>
-        <img src='../Components/login-register-img.jpeg' alt='logo' className='w-50'/>
+        <img src={LoginRegisterImg} alt='logo' className='w-50 big-img' />
         <form className="login-form w-70" onSubmit={handleSubmit}>
           <h2>Login</h2>
           <div className="form-group">
