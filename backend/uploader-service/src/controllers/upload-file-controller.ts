@@ -50,7 +50,6 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   console.log("This is the file metadata: ", fileMetadata);
 
   res.status(200).send("Hello");
-  // // post -> check -> encrypt -> save
 });
 
 export { uploadFileHandler };
