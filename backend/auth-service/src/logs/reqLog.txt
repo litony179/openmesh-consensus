@@ -77,3 +77,7 @@
 [12/12/2023 18:59:21.189]	d6a400c5-9356-4e38-b778-bff46e90ce40	POST	undefined	/api/users/v1/authentication/generateotp
 [12/12/2023 18:59:21.219]	1c20f353-7224-4235-97f4-f3c1bfe3751b	POST	undefined	/api/users/v1/authentication/registeruser
 [12/12/2023 18:59:21.302]	169aa078-479d-4808-92c4-7d61d684019b	POST	undefined	/api/users/v1/authentication/generateotp
+[16/12/2023 19:18:56.904]	f5cb55cf-829c-44c7-a549-abd81c127720	POST	undefined	/api/users/v1/authentication/registeruser
+[16/12/2023 19:24:01.887]	598b6d69-8116-490f-acb7-c4d0c80e2f4f	POST	undefined	/api/users/v1/authentication/loginuser
+[16/12/2023 19:24:15.950]	b24529a9-7d39-4ca1-9676-625a073e7c5a	POST	undefined	/api/users/v1/authentication/loginuser
+[16/12/2023 19:24:55.390]	04aab15a-0338-42d7-b872-2c7fccf24c8e	POST	undefined	/api/users/v1/authentication/loginuser
