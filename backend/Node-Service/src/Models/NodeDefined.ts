@@ -2,13 +2,13 @@ import { v4 as uuidv4 } from "uuid";
 
 export class NodeClass implements NodeBuilderInt {
   NodeHash: String;
-  UserId: String;
+  UserId: any;
   Public_key: String = this.generatePublic_key();
   DataMajor: String;
   CreateDate: String = this.DateCreation();
   ConnectionType: String;
   
-  constructor(UserId: string, DataMajor: string, ConnectionType: string){
+  constructor(UserId: any, DataMajor: string, ConnectionType: string){
     this.NodeHash = this.generateNodeHash();
     this.UserId = UserId;
     this.Public_key = this.generatePublic_key();

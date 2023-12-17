@@ -18,4 +18,6 @@ const NodedbSchema: Schema = new Schema({
   ConnectionType: { type: String, required: true },
 });
 
-export default mongoose.model<NodeDBInt>("Example", NodedbSchema);
+const NodeModel = mongoose.model<NodeDBInt>("NodeSchema", NodedbSchema);
+
+export { NodeModel };
