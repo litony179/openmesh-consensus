@@ -1,24 +1,35 @@
 import React, { useState, FormEvent } from 'react';
 import '../Styles/Signup.scss';
 import '../Styles/App.scss';
-
 import LoginRegisterImg from '../Components/login-register-img.jpeg';
+import { apiCallPost } from '../services/api';
+import { setJWT } from '../services/jwtManager';
 
 interface FormState {
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobileNumber: string;
-  password: string;
+  userFirstName: string;
+  userLastName: string;
+  userEmail: string;
+  userPassword: string;
+  userConfirmPassword: string;
+  userRoles: {
+    admin: number,
+    editor: number,
+    user: number
+  }
 }
 
 export const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState<FormState>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobileNumber: '',
-    password: '',
+    userFirstName: '',
+    userLastName: '',
+    userEmail: '',
+    userPassword: '',
+    userConfirmPassword: '',
+    userRoles: {
+      admin: 5150,
+      editor: 1982,
+      user: 2001
+    }
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,8 +42,14 @@ export const SignupPage: React.FC = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Here you would handle the form submission, e.g., by sending the data to an API
+    // Handle the form submission, e.g., by sending the data to an API
     console.log('Form data:', formData);
+    apiCallPost('/registeruser', formData)
+      .then((r: any) => {
+        // AFter registering -> otp -> logged in 
+        setJWT(r.userAccessToken);
+        console.log('createdlising', r);
+      });
   };
 
   return (
@@ -44,37 +61,27 @@ export const SignupPage: React.FC = () => {
           <div className="form-group">
             <input
               type="text"
-              name="firstName"
+              name="userFirstName"
               placeholder="First name"
-              value={formData.firstName}
+              value={formData.userFirstName}
               onChange={handleChange}
               required
             />
             <input
               type="text"
-              name="lastName"
+              name="userLastName"
               placeholder="Last name"
-              value={formData.lastName}
+              value={formData.userLastName}
               onChange={handleChange}
               required
             />
           </div>
           <div className="form-group">
             <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="tel"
-              name="mobileNumber"
-              placeholder="Mobile number"
-              value={formData.mobileNumber}
+              type="Email"
+              name="userEmail"
+              placeholder="Enter email"
+              value={formData.userEmail}
               onChange={handleChange}
               required
             />
@@ -82,9 +89,19 @@ export const SignupPage: React.FC = () => {
           <div className="form-group">
             <input
               type="password"
-              name="password"
-              placeholder="Create a password"
-              value={formData.password}
+              name="userPassword"
+              placeholder="Create password"
+              value={formData.userPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="userConfirmPassword"
+              placeholder="Confirm password"
+              value={formData.userConfirmPassword}
               onChange={handleChange}
               required
             />
@@ -95,7 +112,7 @@ export const SignupPage: React.FC = () => {
               I agree to the Terms and Privacy Policy
             </label>
           </div>
-          <button type="submit" className="submit-btn">Create account</button>
+          <button type="submit" className="submit-btn" onClick={handleSubmit}>Create account</button>
           <div className="login-link">
             Already have an account? <a href="/login">Log in</a>
           </div>

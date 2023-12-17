@@ -2,16 +2,18 @@ import React, { useState, FormEvent } from 'react';
 import '../Styles/App.scss';
 import '../Styles/Login.scss';
 import LoginRegisterImg from '../Components/login-register-img.jpeg';
+import { apiCallPost } from '../services/api';
+import { setJWT } from '../services/jwtManager';
 
 interface LoginState {
-  email: string;
-  password: string;
+  userEmail: string;
+  userPassword: string;
 }
 
 export const LoginPage: React.FC = () => {
   const [loginData, setLoginData] = useState<LoginState>({
-    email: '',
-    password: '',
+    userEmail: '',
+    userPassword: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +26,14 @@ export const LoginPage: React.FC = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Here you would handle the login submission, e.g., by sending the data to an API
-    console.log('Login data:', loginData);
+    // Handle the form submission, e.g., by sending the data to an API
+    console.log('Form data:', loginData);
+    apiCallPost('/loginuser', loginData)
+      .then((r: any) => {
+        // AFter registering -> otp -> logged in 
+        setJWT(r.userAccessToken);
+        console.log('Saved userAccessToken', r.userAccessToken);
+      });
   };
 
   return (
@@ -37,9 +45,9 @@ export const LoginPage: React.FC = () => {
           <div className="form-group">
             <input
               type="email"
-              name="email"
-              placeholder="Email"
-              value={loginData.email}
+              name="userEmail"
+              placeholder="Enter Email"
+              value={loginData.userEmail}
               onChange={handleChange}
               required
             />
@@ -47,14 +55,14 @@ export const LoginPage: React.FC = () => {
           <div className="form-group">
             <input
               type="password"
-              name="password"
-              placeholder="Password"
-              value={loginData.password}
+              name="userPassword"
+              placeholder="Enter Password"
+              value={loginData.userPassword}
               onChange={handleChange}
               required
             />
           </div>
-          <button type="submit" className="login-btn">Login</button>
+          <button type="submit" className="login-btn" onClick={handleSubmit}>Login</button>
           <div className="footer-links">
             <a href="/forgot-password">Forgot Password?</a>
             <span>No account? <a href="/register">Register</a></span>
