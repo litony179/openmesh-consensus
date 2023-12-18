@@ -1,7 +1,6 @@
-// NodeRoutes.ts
 import express, { Request, Response } from "express";
 import { NodeClass } from "../Models/NodeDefined";
-import { decrypttoken } from "../controllers/Decrypt";
+import { decrypttoken } from "../controllers/Decyrpt-controller";
 
 const router = express.Router();
 
