@@ -7,17 +7,19 @@ import { LoginPage } from './Pages/LoginPage';
 import { SignupPage } from './Pages/SignupPage';
 import { HomePage } from './Pages/HomePage';
 import { NavBar } from './Components/NavBar';
-
+import { UserProvider } from './Context/UserContext';
 function App() {
   return (
-    <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 
 }
