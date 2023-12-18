@@ -25,6 +25,7 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   console.log(req.body);
   console.log(req.file);
   const requestFile = req.file;
+  console.log(req.headers["content-type"]);
 
   const requestFileMetadata = fileMetadataSchema.safeParse(req.body);
 
@@ -55,16 +56,22 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   // Present: File & MetaData all inspected
   // So, this time, "ACTIVATE S3!"
 
+  console.log("try to connect to s3")
+  const s3client = awsS3Client.createS3Client(awsConfig);
+  console.log("client created?")
   // Create Bucket ( Creating client & Checking bucket already applied)
-  const s3Bucket = await awsS3Client.createS3Bucket(S3Config, "bucksbucks");
+  console.log("try to create s3bucket")
+  const s3Bucket = await awsS3Client.createS3Bucket(s3client, "doggy-doggo-mybucket");
+  // const s3Bucket = await awsS3Client.createS3Bucket(S3Config, "doggy-doggo-mybucket");
+  console.log("bucket created?")
 
-  if (s3Bucket === null) {
+  if (s3Bucket !== null) {
     // if (s3Bucket!) {
 
     const uploadingFile = awsS3Client.uploadFile(
       s3Bucket,
       requestFile,
-      { bucketName: s3Bucket, key: "key", contentType: "contentType" });
+      { bucketName: s3Bucket, key: S3Config.credentials.accessKeyId, contentType: requestFile.mimetype });
 
     const uploadingMetaData = UploadFile.build(fileMetadata).save(this);
 
