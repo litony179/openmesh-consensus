@@ -1,3 +1,13 @@
-// looks to allow the user to change and update either the nodes datamajor or connection type
+import { Request, Response } from "express";
+import asyncHandler from "express-async-handler";
+import { FetchNode } from "./FetchNode-controller";
+import { NodeModel } from "../Schema/NodeDBSchema";
 
-//im thinking of creating datamajor schemas that act as outlines that tailor to specific data needs for the node to save given data in a specific format. 
+const UpdateNode = asyncHandler(async (req: Request, res: Response) => {
+    const { DataMajor, ConnectionType } = req.body;
+
+    const node = await NodeModel.findByIdAndUpdate(FetchNode, DataMajor, ConnectionType);
+    res.json(node);
+});
+
+export {UpdateNode}; 

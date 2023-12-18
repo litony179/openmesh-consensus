@@ -1,4 +1,5 @@
-// fetch node 
+import express, { Request, Response } from "express";
+import { Router } from "../controllers/FetchNode-controller";
 
 // fetch data
 
