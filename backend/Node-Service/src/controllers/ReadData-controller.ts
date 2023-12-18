@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { Router } from "../controllers/FetchNode-controller";
+import { FetchNode } from "./FetchNode-controller";
 
 // fetch data
 
