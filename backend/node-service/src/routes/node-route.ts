@@ -8,4 +8,14 @@ router.get("/healthCheck", (req: Request, res: Response) => {
   });
 });
 
+router.post("/createnode", (req: Request, res: Response) => {});
+
+router.get("/getallnodes", (req: Request, res: Response) => {});
+
+router.get("/getnode:id", (req: Request, res: Response) => {});
+
+router.patch("/updatenode:id", (req: Request, res: Response) => {});
+
+router.delete("/deletenode:id", (req: Request, res: Response) => {});
+
 export { router as nodeRouter };
