@@ -2,8 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import '../Styles/App.scss';
 import '../Styles/Login.scss';
 import LoginRegisterImg from '../Components/login-register-img.jpeg';
-import { apiCallPost } from '../services/api';
 import { setJWT } from '../services/jwtManager';
+import { apiCallPost } from '../services/api';
 
 interface LoginState {
   userEmail: string;
