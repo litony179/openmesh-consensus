@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+// Node database schema interface
 export interface NodeDBInt extends Document {
   NodeHash: String;
   UserId: String;
@@ -8,7 +9,7 @@ export interface NodeDBInt extends Document {
   CreateDate: String;
   ConnectionType: String;
 }
-
+// Node database schema
 const NodedbSchema: Schema = new Schema({
   NodeHash: { type: String, required: true },
   UserId: { type: String, required: true },

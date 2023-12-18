@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
+// Defines the Node class that is in charge of creating the outline for the node and its data and function
 export class NodeClass implements NodeBuilderInt {
   NodeHash: String;
   UserId: any;
