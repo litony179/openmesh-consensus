@@ -57,31 +57,34 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   // So, this time, "ACTIVATE S3!"
 
   console.log("try to connect to s3")
-  const s3client = awsS3Client.createS3Client(awsConfig);
+  const s3client = awsS3Client.createS3Client(S3Config);
+
   console.log("client created?")
+  console.log(s3client);
   // Create Bucket ( Creating client & Checking bucket already applied)
-  console.log("try to create s3bucket")
+  // console.log("try to create s3bucket")
   const s3Bucket = await awsS3Client.createS3Bucket(s3client, "doggy-doggo-mybucket");
   // const s3Bucket = await awsS3Client.createS3Bucket(S3Config, "doggy-doggo-mybucket");
-  console.log("bucket created?")
+  console.log(s3Bucket);
+  console.log("bucket created?");
 
-  if (s3Bucket !== null) {
-    // if (s3Bucket!) {
+  // if (s3Bucket !== null) {
+  //   // if (s3Bucket!) {
 
-    const uploadingFile = awsS3Client.uploadFile(
-      s3Bucket,
-      requestFile,
-      { bucketName: s3Bucket, key: S3Config.credentials.accessKeyId, contentType: requestFile.mimetype });
+  //   const uploadingFile = awsS3Client.uploadFile(
+  //     s3Bucket,
+  //     requestFile,
+  //     { bucketName: s3Bucket, key: S3Config.credentials.accessKeyId, contentType: requestFile.mimetype });
 
-    const uploadingMetaData = UploadFile.build(fileMetadata).save(this);
+  //   const uploadingMetaData = UploadFile.build(fileMetadata).save(this);
 
-    const uploadingProcess = await Promise.all([
-      uploadingFile, uploadingMetaData
-    ]);
+  //   const uploadingProcess = await Promise.all([
+  //     uploadingFile, uploadingMetaData
+  //   ]);
 
-  } else {
-    res.status(500).send("Server Error: Bucket creation failed!")
-  }
+  // } else {
+  //   res.status(500).send("Server Error: Bucket creation failed!")
+  // }
 
   res.status(200).send("Hello");
 
