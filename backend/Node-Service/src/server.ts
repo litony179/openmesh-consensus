@@ -16,7 +16,7 @@ const server = async () => {
       await mongoose.connect(MONGODB_CONNECTION_STRING as string);
       console.log("connected to mongodb :)");
     } catch (error) {
-      console.log("There is an error in connecting to mongoDb");
+      console.log("There is an error in   connecting to mongoDb");
       console.error(error);
     }
 

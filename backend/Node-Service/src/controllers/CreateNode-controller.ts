@@ -1,13 +1,16 @@
+// NEEDED IMPORTS
 import express, { Request, Response } from "express";
 import { NodeClass } from "../Models/NodeDefined";
-import { decrypttoken } from "../controllers/Decyrpt-controller";
+import { decrypttoken } from "../controllers/DecryptJwt-controller";
 
 const router = express.Router();
 
 router.post("/create", (req: Request, res: Response) => {
+    // Grabs data from the request body and find the current UserId of the user logged in 
   const { DataMajor, ConnectionType } = req.body;
   const UserId = decrypttoken(res.header("Authorization"));
 
+  // Creates a NewNode based off the class and given data above
   const NewNode = new NodeClass(UserId, DataMajor, ConnectionType);
 
   try {

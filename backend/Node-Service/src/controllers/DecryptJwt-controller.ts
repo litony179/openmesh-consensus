@@ -11,4 +11,3 @@ export const decrypttoken = (jwttoken: any) => {
       console.error("Invalid or expired token");
     }
   };
-  
