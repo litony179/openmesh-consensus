@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 export const nodeSchema = z.object({
   nodeUserId: z.string(),
   nodePublicKey: z.string(),

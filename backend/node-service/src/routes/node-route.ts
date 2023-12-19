@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
-
+import { createNodeHandler } from "../controllers/create-node-controller";
+import { verifyJWT } from "../middleware/verify-jwt";
 const router = express.Router();
 
 router.get("/healthCheck", (req: Request, res: Response) => {
@@ -8,7 +9,7 @@ router.get("/healthCheck", (req: Request, res: Response) => {
   });
 });
 
-router.post("/createnode", (req: Request, res: Response) => {});
+router.post("/createnode", verifyJWT, createNodeHandler);
 
 router.get("/getallnodes", (req: Request, res: Response) => {});
 
