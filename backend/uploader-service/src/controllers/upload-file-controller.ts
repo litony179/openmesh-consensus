@@ -54,7 +54,8 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
 
   // Define 'bucket's name'
   console.log("\ntry to create or connect to S3 Bucket...")
-  const bucket_name: string = `test-bucket-${Date.now()}`; // !!!! Revision ! Required ! !!!!
+  // const bucket_name: string = `test-bucket-${Date.now()}`; // !!!! Revision ! Required ! !!!!
+  const bucket_name: string = requestFileMetadata.data.nodeId;
   // Create Bucket
   const s3Bucket = await awsS3Client.createS3Bucket(s3client, bucket_name);
   console.log(`bucket created?\n\t\t${Boolean(s3Bucket)}\n`);

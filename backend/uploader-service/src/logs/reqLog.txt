@@ -67,3 +67,4 @@
 [19/12/2023 16:31:22.374]	7051b952-e2c1-4b0d-bc4b-cdba44f05958	POST	undefined	/api/uploader/uploadFile
 [19/12/2023 16:33:42.006]	66d894a7-d86d-4ae7-a75a-81ddbb4227c9	POST	undefined	/api/uploader/uploadFile
 [19/12/2023 16:40:11.009]	baa29dff-0d8c-46d5-b4fa-0c786db5bc70	POST	undefined	/api/uploader/uploadFile
+[19/12/2023 19:41:57.948]	5a84436c-111c-42de-9c7f-7c21a47b71a4	POST	undefined	/api/uploader/uploadFile
