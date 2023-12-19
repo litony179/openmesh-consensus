@@ -46,3 +46,10 @@
 [12/12/2023 18:59:14.339]	ee8614f1-b0f0-4121-b4a8-5a0a2a538f8f	POST	undefined	verifyOtpHandler	OTP has expired. Please generate a new OTP.
 [12/12/2023 18:59:21.162]	19b9e9dc-b9b0-4c86-87ef-edd2281750af	POST	undefined	/generateotp	[{"code":"invalid_type","expected":"string","received":"undefined","path":["userEmail"],"message":"Required"}]
 [12/12/2023 18:59:21.193]	c23d98a3-3805-4d1d-8f7c-3349808758f3	POST	undefined	/generateotp	[{"validation":"email","code":"invalid_string","message":"Please provide a valid email address.","path":["userEmail"]}]
+[19/12/2023 15:28:36.626]	e881a88c-d7ca-4f63-9157-8bdb7b5ed1d0	POST	undefined	loginuser	User does not exist. Please register.
+[19/12/2023 15:28:51.176]	910d94bb-c5bc-4718-b51f-ebe482290f37	POST	undefined	loginuser	User does not exist. Please register.
+[19/12/2023 15:29:09.880]	b1225a1c-6b3e-44de-9980-f8870be8f138	POST	undefined	loginuser	User does not exist. Please register.
+[19/12/2023 15:46:00.194]	3768f354-bdb3-4810-a70f-c55ec7a16f4b	POST	undefined	loginuser	User does not exist. Please register.
+[19/12/2023 15:46:40.584]	fb4ea6a7-3b87-4d38-903f-248487779ad8	POST	undefined	loginuser	User does not exist. Please register.
+[19/12/2023 15:46:41.528]	fb1fc1cb-ddf1-442d-ad2b-15352b607c4d	POST	undefined	loginuser	User does not exist. Please register.
+[19/12/2023 15:52:29.521]	97bf2248-2c9c-4334-978f-bc8615e1d631	POST	undefined	/loginuser	[{"code":"invalid_type","expected":"string","received":"undefined","path":["userPassword"],"message":"Please provide a password."}]
