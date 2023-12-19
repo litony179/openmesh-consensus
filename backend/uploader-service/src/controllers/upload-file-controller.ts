@@ -21,12 +21,9 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
    * step 2: Save 'request_file' to S3 & Save file's 'metadata' to MongoDB
    */
 
-  // retrieve file from request body
-  console.log(req.body);
-  console.log(req.file);
+  // for saving to S3
   const requestFile = req.file;
-  console.log(req.headers["content-type"]);
-
+  // for saving to mongoDB with mongoose
   const requestFileMetadata = fileMetadataSchema.safeParse(req.body);
 
   if (!requestFileMetadata.success) {
@@ -45,49 +42,49 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
     throw new BadRequestError(message);
   }
 
-  console.log("This is the request body: ", req.body);
-  console.log("This is the request image/file", req.file);
-
   // Remember 'requestFile'
   const fileMetadata = requestFileMetadata.data;
 
-  console.log("This is the file metadata: ", fileMetadata);
-
-  // Present: File & MetaData all inspected
-  // So, this time, "ACTIVATE S3!"
-  console.log("try to connect to s3");
+  // Create S3 client
+  console.log("\ntry to connect to s3...");
 
   const s3client = awsS3Client.createS3Client(S3Config);
 
-  console.log("client created?")
-  console.log(s3client);
+  console.log(`client created?\n\t\t${Boolean(s3client)}\n`)
 
-  // Create Bucket ( Creating client & Checking bucket already applied)
-  const s3Bucket = await awsS3Client.createS3Bucket(s3client, `test-bucket-${Date.now()}`);
-  console.log("bucket created?");
-  console.log(s3Bucket);
+  // Define 'bucket's name'
+  console.log("\ntry to create or connect to S3 Bucket...")
+  const bucket_name: string = `test-bucket-${Date.now()}`; // !!!! Revision ! Required ! !!!!
+  // Create Bucket
+  const s3Bucket = await awsS3Client.createS3Bucket(s3client, bucket_name);
+  console.log(`bucket created?\n\t\t${Boolean(s3Bucket)}\n`);
 
-  // if (s3Bucket !== null) {
-  //   // if (s3Bucket!) {
+  if (s3Bucket!) {
+    // upload file to bucket
+    const uploadingFile = awsS3Client.uploadFile(
+      s3client,
+      requestFile,
+      { bucketName: bucket_name, key: requestFile.originalname, contentType: requestFile.mimetype });
 
-  //   const uploadingFile = awsS3Client.uploadFile(
-  //     s3Bucket,
-  //     requestFile,
-  //     { bucketName: s3Bucket, key: S3Config.credentials.accessKeyId, contentType: requestFile.mimetype });
+    // build model(mongoose) to save metadata to MongoDB
+    const uploadingMetaData = UploadFile.build(fileMetadata).save(this);
 
-  //   const uploadingMetaData = UploadFile.build(fileMetadata).save(this);
+    console.log("\ntry to upload file to S3 Bucket...\n\t& try to save file data to MongoDB");
+    const uploadingProcess = await Promise.all([ // .all : parallel start
+      // uploading & saving perform concurrently
+      uploadingFile, uploadingMetaData
+    ]);
 
-  //   const uploadingProcess = await Promise.all([
-  //     uploadingFile, uploadingMetaData
-  //   ]);
+    if (uploadingProcess) { // parallel processes are successfully performed.
+      console.log(`file uploaded & saved?\n\t\t${Boolean(uploadingProcess)}\n`);
+      res.status(200).send(uploadingProcess); // !!!!!! plz revise it plz !!!!!!
+    } else {
+      res.status(500).send("Server Error: Uploading process blocked");
+    }
 
-  // } else {
-  //   res.status(500).send("Server Error: Bucket creation failed!")
-  // }
-
-
-
-  res.status(200).send(s3Bucket);
+  } else {
+    res.status(500).send("Server Error: Bucket creation failed!");
+  }
 
 });
 
