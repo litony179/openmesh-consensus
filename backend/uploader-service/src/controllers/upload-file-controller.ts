@@ -55,18 +55,17 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
 
   // Present: File & MetaData all inspected
   // So, this time, "ACTIVATE S3!"
+  console.log("try to connect to s3");
 
-  console.log("try to connect to s3")
   const s3client = awsS3Client.createS3Client(S3Config);
 
   console.log("client created?")
   console.log(s3client);
+
   // Create Bucket ( Creating client & Checking bucket already applied)
-  // console.log("try to create s3bucket")
-  const s3Bucket = await awsS3Client.createS3Bucket(s3client, "doggy-doggo-mybucket");
-  // const s3Bucket = await awsS3Client.createS3Bucket(S3Config, "doggy-doggo-mybucket");
-  console.log(s3Bucket);
+  const s3Bucket = await awsS3Client.createS3Bucket(s3client, `test-bucket-${Date.now()}`);
   console.log("bucket created?");
+  console.log(s3Bucket);
 
   // if (s3Bucket !== null) {
   //   // if (s3Bucket!) {
@@ -86,7 +85,9 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   //   res.status(500).send("Server Error: Bucket creation failed!")
   // }
 
-  res.status(200).send("Hello");
+
+
+  res.status(200).send(s3Bucket);
 
 });
 
