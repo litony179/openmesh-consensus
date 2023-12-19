@@ -123,5 +123,6 @@ export const awsS3Client = (() => {
     createS3Client,
     uploadFile,
     checkBucketExists,
+    retrieveByFileName,
   };
 })();

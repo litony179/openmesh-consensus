@@ -11,5 +11,9 @@ import { NotFoundError } from "../errors/not-found-error";
  */
 
 export class MetadataService {
-    // static async getDataByNodeid()
+    static async getMetadataByNodeid(nodeId: string) {
+        const existingNode = await UploadFile.findOne({ nodeId: nodeId });
+        const responseMetadata = existingNode?.toJSON();
+        return responseMetadata;
+    }
 }

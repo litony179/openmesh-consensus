@@ -54,8 +54,7 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
 
   // Define 'bucket's name'
   console.log("\ntry to create or connect to S3 Bucket...")
-  // const bucket_name: string = `test-bucket-${Date.now()}`; // !!!! Revision ! Required ! !!!!
-  const bucket_name: string = requestFileMetadata.data.nodeId;
+  const bucket_name: string = `node-${requestFileMetadata.data.nodeId}`;
   // Create Bucket
   const s3Bucket = await awsS3Client.createS3Bucket(s3client, bucket_name);
   console.log(`bucket created?\n\t\t${Boolean(s3Bucket)}\n`);
@@ -68,7 +67,7 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
       { bucketName: bucket_name, key: requestFile.originalname, contentType: requestFile.mimetype });
 
     // build model(mongoose) to save metadata to MongoDB
-    const uploadingMetaData = UploadFile.build(fileMetadata).save(this);
+    const uploadingMetaData = UploadFile.build(fileMetadata).save(this); // !!!!!! plz revise it plz !!!!!!
 
     console.log("\ntry to upload file to S3 Bucket...\n\t& try to save file data to MongoDB");
     const uploadingProcess = await Promise.all([ // .all : parallel start
