@@ -1,9 +1,10 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { any, string } from "zod";
 
 // Node database schema interface
 export interface NodeDBInt extends Document {
   NodeHash: String;
-  UserId: String;
+  UserId: string;
   Public_key: String;
   DataMajor: String;
   CreateDate: String;

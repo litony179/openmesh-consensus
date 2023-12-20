@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { NodeModel } from "../Schema/NodeDBSchema";
-import { decrypttoken } from "./DecryptJwt-controller";
+import { decryptToken } from "./DecryptJwt-controller";
 
 /**
  @precondition nodeId is in the request parameter
  **/
 const FetchNode = asyncHandler(async (req: Request, res: Response) => {
   const nodeId = req.params.nodeId;
-  const userId = decrypttoken(res.header("Authorization"));
+  const userId = decryptToken(req.headers.cookie);
 
   const node = await NodeModel.findById(nodeId);
   res.json(node);
