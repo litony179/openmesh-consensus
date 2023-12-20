@@ -5,7 +5,7 @@ import LoginRegisterImg from '../Components/login-register-img.jpeg';
 import { useUser } from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
-import { ILoginInput } from '../services/AuthService';
+import { ILoginInput } from '../services/AuthServices/AuthService';
 
 
 export const LoginPage: React.FC = () => {

@@ -1,13 +1,11 @@
-import { getJWT } from "./jwtManager";
-
 const httpLink = 'http://localhost:3000/api/users/v1/authentication'
 
-export const apiCallPost = async (path: any, body: any) => {
+export const apiCallPost = async (path: any, JWTToken: string, body: any) => {
   const response = await fetch(`${httpLink}${path}`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${getJWT()}`,
+      Authorization: `Bearer ${JWTToken}`,
     },
     body: JSON.stringify(body),
   });
@@ -15,15 +13,16 @@ export const apiCallPost = async (path: any, body: any) => {
   return await response.json();
 };
 
-export const apiCallGet = async (path: any, cookie: string) => {
+export const apiCallGet = async (path: any, JWTToken: string) => {
   //  DOES NOT WORK
-  console.log(getJWT());
-  const response = await fetch(httpLink + path , {
+  console.log(JWTToken);
+  const response = await fetch(httpLink + path, {
     method: 'GET',
+    credentials: 'include',
     headers: {
       'Content-type': 'application/json',
-      Authorization: `Bearer ${getJWT()}`,
+      Authorization: `Bearer ${JWTToken}`,
     },
   });
-    return await response.json();
+  return await response.json();
 };

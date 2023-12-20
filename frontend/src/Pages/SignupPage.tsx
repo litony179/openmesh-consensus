@@ -2,24 +2,14 @@ import React, { useState, FormEvent } from 'react';
 import '../Styles/Signup.scss';
 import '../Styles/App.scss';
 import LoginRegisterImg from '../Components/login-register-img.jpeg';
-import { apiCallPost } from '../services/api';
-import { setJWT } from '../services/jwtManager';
-
-interface FormState {
-  userFirstName: string;
-  userLastName: string;
-  userEmail: string;
-  userPassword: string;
-  userConfirmPassword: string;
-  userRoles: {
-    admin: number,
-    editor: number,
-    user: number
-  }
-}
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../Context/UserContext';
+import { IRegisterInput } from '../services/AuthServices/AuthService';
 
 export const SignupPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormState>({
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState<IRegisterInput>({
     userFirstName: '',
     userLastName: '',
     userEmail: '',
@@ -31,6 +21,7 @@ export const SignupPage: React.FC = () => {
       user: 2001
     }
   });
+  const { registerUser } = useUser();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,23 +31,18 @@ export const SignupPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
-    // Handle the form submission, e.g., by sending the data to an API
-    console.log('Form data:', formData);
-    apiCallPost('/registeruser', formData)
-      .then((r: any) => {
-        // AFter registering -> otp -> logged in 
-        setJWT(r.userAccessToken);
-        console.log('createdlising', r);
-      });
+
+    await registerUser(formData);
+    navigate('/home');
   };
 
   return (
     <>
       <div className='d-flex'>
         <img src={LoginRegisterImg} alt='logo' className='w-50 big-img pl-3 pt-1' />
-        <form className="register-form w-50 pt-2" onSubmit={handleSubmit} >
+        <form className="register-form w-50 pt-2" onSubmit={handleRegister} >
           <h2>Register</h2>
           <div className="form-group">
             <input
@@ -112,7 +98,7 @@ export const SignupPage: React.FC = () => {
               I agree to the Terms and Privacy Policy
             </label>
           </div>
-          <button type="submit" className="submit-btn" onClick={handleSubmit}>Create account</button>
+          <button type="submit" className="submit-btn">Create account</button>
           <div className="login-link">
             Already have an account? <a href="/login">Log in</a>
           </div>

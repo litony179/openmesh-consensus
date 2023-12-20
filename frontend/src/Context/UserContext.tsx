@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
-import { ILoginInput } from '../services/AuthService';
-import * as AuthService from '../services/AuthService';
+import { ILoginInput, IRegisterInput } from '../services/AuthServices/AuthService';
+import * as AuthService from '../services/AuthServices/AuthService';
 import { jwtDecode } from 'jwt-decode';
 
 // Define a type for the user data
@@ -20,10 +20,11 @@ type UserType = {
 type UserContextType = {
   user: UserType | null,
   setUser: React.Dispatch<React.SetStateAction<UserType | null>>,
-  token: string,
-  setToken: React.Dispatch<React.SetStateAction<string>>,
+  JWTToken: string,
+  setJWTToken: React.Dispatch<React.SetStateAction<string>>,
   isAuthenticated: boolean,
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
+  registerUser: (formData: IRegisterInput) => Promise<void>,
   loginUser: (loginData: ILoginInput) => Promise<void>,
   logoutUser: () => Promise<void>,
 };
@@ -34,13 +35,23 @@ export const UserContext = createContext<UserContextType>(null!);
 // Create a provider component
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserType | null>(null); // null when no user is logged in
-  const [token, setToken] = useState<string>("");
+  const [JWTToken, setJWTToken] = useState<string>("");
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
 
-  const loginUser = async (loginData: ILoginInput) => {
-    const jwt: string = await AuthService.login(loginData);
+  const registerUser = async (formData: IRegisterInput) => {
+    const jwt: string = await AuthService.register(formData, JWTToken);
     // set jwt
-    setToken(jwt);
+    setJWTToken(jwt);
+    // set user
+    setUser(jwtDecode(jwt));
+    // set isAuthenticated
+    setAuthenticated(true);
+  }
+
+  const loginUser = async (loginData: ILoginInput) => {
+    const jwt: string = await AuthService.login(loginData, JWTToken);
+    // set jwt
+    setJWTToken(jwt);
     // set user
     setUser(jwtDecode(jwt));
     // set isAuthenticated
@@ -48,11 +59,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const logoutUser = async () => {
-    console.log("in context LOGGING out right now");
-    const response = await AuthService.logout();
+    const response = await AuthService.logout(JWTToken);
     console.log(response);
     // set jwt
-    setToken("");
+    setJWTToken("");
     // set user
     setUser(null);
     // set isAuthenticated
@@ -60,7 +70,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, token, setToken, isAuthenticated, setAuthenticated, loginUser, logoutUser }}>
+    <UserContext.Provider value={{ user, setUser, JWTToken, setJWTToken, isAuthenticated, setAuthenticated, registerUser, loginUser, logoutUser }}>
       {children}
     </UserContext.Provider>
   );
