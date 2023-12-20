@@ -2,19 +2,19 @@ import React, { useState, FormEvent } from 'react';
 import '../Styles/App.scss';
 import '../Styles/Login.scss';
 import LoginRegisterImg from '../Components/login-register-img.jpeg';
-import { setJWT } from '../services/jwtManager';
-import { apiCallPost } from '../services/api';
+import { useUser } from '../Context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
-interface LoginState {
-  userEmail: string;
-  userPassword: string;
-}
+import { ILoginInput } from '../services/AuthService';
+
 
 export const LoginPage: React.FC = () => {
-  const [loginData, setLoginData] = useState<LoginState>({
+  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState<ILoginInput>({
     userEmail: '',
     userPassword: '',
   });
+  const { loginUser } = useUser();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,23 +24,19 @@ export const LoginPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    // Handle the form submission, e.g., by sending the data to an API
-    console.log('Form data:', loginData);
-    apiCallPost('/loginuser', loginData)
-      .then((r: any) => {
-        // AFter registering -> otp -> logged in 
-        setJWT(r.userAccessToken);
-        console.log('Saved userAccessToken', r.userAccessToken);
-      });
+
+    await loginUser(loginData);
+    navigate('/home');
+
   };
 
   return (
     <>
       <div className='d-flex'>
         <img src={LoginRegisterImg} alt='logo' className='w-50 big-img' />
-        <form className="login-form w-70" onSubmit={handleSubmit}>
+        <form className="login-form w-70" onSubmit={handleLogin}>
           <h2>Login</h2>
           <div className="form-group">
             <input
@@ -62,7 +58,7 @@ export const LoginPage: React.FC = () => {
               required
             />
           </div>
-          <button type="submit" className="login-btn" onClick={handleSubmit}>Login</button>
+          <button type="submit" className="login-btn">Login</button>
           <div className="footer-links">
             <a href="/forgot-password">Forgot Password?</a>
             <span>No account? <a href="/register">Register</a></span>

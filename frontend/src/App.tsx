@@ -8,18 +8,25 @@ import { SignupPage } from './Pages/SignupPage';
 import { HomePage } from './Pages/HomePage';
 import { NavBar } from './Components/NavBar';
 import { UserProvider } from './Context/UserContext';
+// import { Footer } from './Components/Footer';
+
 function App() {
   return (
-    <UserProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserProvider>
+
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Routes>
-      </BrowserRouter>
-    </UserProvider>
+        {/* <Footer /> */}
+      </UserProvider>
+
+    </BrowserRouter>
   );
 
 }

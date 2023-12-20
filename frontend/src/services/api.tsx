@@ -15,17 +15,15 @@ export const apiCallPost = async (path: any, body: any) => {
   return await response.json();
 };
 
-export const apiCallGet = async (path: any, queryString: object, cookie: string) => {
+export const apiCallGet = async (path: any, cookie: string) => {
   //  DOES NOT WORK
-  const formatedQueryString = queryString.toString();
-  const response = await fetch(httpLink + path + '?' + formatedQueryString, {
+  console.log(getJWT());
+  const response = await fetch(httpLink + path , {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
       Authorization: `Bearer ${getJWT()}`,
-      'Cookie': cookie  // Set the cookie in the request header
     },
-    credentials: 'include' // Include the cookie in the response header NOTE: DOES NOT WORK
   });
     return await response.json();
 };
