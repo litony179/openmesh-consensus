@@ -34,8 +34,8 @@ export const LoginPage: React.FC = () => {
 
   return (
     <>
-      <div className='d-flex'>
-        <img src={LoginRegisterImg} alt='logo' className='w-50 big-img' />
+      <div className='d-flex center'>
+        <img src={LoginRegisterImg} alt='logo' className='w-70 big-img pl-3 pt-2' />
         <form className="login-form w-70" onSubmit={handleLogin}>
           <h2>Login</h2>
           <div className="form-group">
@@ -59,10 +59,16 @@ export const LoginPage: React.FC = () => {
             />
           </div>
           <button type="submit" className="login-btn">Login</button>
-          <div className="footer-links">
-            <a href="/forgot-password">Forgot Password?</a>
-            <span>No account? <a href="/register">Register</a></span>
-          </div>
+          <br />
+          <br />
+          <br />
+          <a href="/forgot-password" className='center-span'>Forgot Password?</a>
+          <br />
+
+          <hr />
+          <br />
+
+          <span className='center-span'>No account?&nbsp;&nbsp;<a href="/register" className='underline'>Register</a></span>
         </form>
       </div>
     </>

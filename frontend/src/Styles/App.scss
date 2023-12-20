@@ -86,3 +86,24 @@ body {
   min-width: 600px;
   max-width: 50vh;
 }
+
+.pl-3 {
+  padding-left: 12%;
+  padding-right: 0;
+}
+
+.pt-1 {
+  padding-top: 2%;
+}
+
+.pt-2 {
+  padding-top: 4%;
+}
+
+.center {
+  justify-content: center;
+}
+
+.underline {
+  text-decoration: underline;
+}
