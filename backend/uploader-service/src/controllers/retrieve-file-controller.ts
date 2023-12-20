@@ -11,7 +11,8 @@ import { awsS3Client } from "../services/s3";
 import { S3Config, awsConfig } from "../config/aws-config";
 import { UploadFile } from "../models/upload-file";
 import { MetadataService } from "../services/metadata";
-import fs from "fs";
+import { writeFile } from "fs/promises";
+import { createReadStream } from "node:fs";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -61,12 +62,20 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
             `${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
 
         if (retrievingProcess!) {
-            const retrievingResult = await retrievingProcess.Body?.transformToWebStream();
+            // res.attachment(`${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+            // const retrievingResult = await retrievingProcess.Body?.transformToWebStream().pipeTo(res);
+            const retrievingResult = await retrievingProcess.Body?.transformToString();
 
             if (retrievingResult!) {
-                // const retrievedFile = await fs.writeFile(retrievingResult);
+                const retrievedFile = await writeFile(
+                    `../../temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`,
+                    retrievingResult);
+
+                res.attachment(`../../temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+                const fileStream = createReadStream(`../../temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+                fileStream.pipe(res);
                 console.log("Testing: File handled!")
-                res.status(200).send("Testing: File handled!");
+                // res.status(200).send("Testing: File handled!");
             }
         } else {
             console.log("Error: restoring retrieved data failed");
