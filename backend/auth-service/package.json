@@ -50,6 +50,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/node": "^20.10.5",
     "nodemailer-mock": "^2.0.2"
   }
 }
