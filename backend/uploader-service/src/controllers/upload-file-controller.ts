@@ -1,29 +1,27 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import multer from "multer";
-import { FileMetadata, fileMetadataSchema } from "../schemas/file-metadata";
+import { fileMetadataSchema } from "../schemas/file-metadata";
 
-import { NotFoundError } from "../errors/not-found-error";
 import { logEvents } from "../middleware/log-events";
 import { BadRequestError } from "../errors/bad-request-error";
 import { RequestValidationError } from "../errors/request-validation-error";
 import { awsS3Client } from "../services/s3";
+import { S3Config } from "../config/aws-config";
+import { MetadataService } from "../services/metadata";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Users upload datas that format is full stretched.
 const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   /*
    * Step 1: Get request information and do validation
-   * step 2:
+   * step 2: Save 'request_file' to S3 & Save file's 'metadata' to MongoDB
    */
 
-  // retrieve file from request body
-  console.log(req.body);
-  console.log(req.file);
+  // for saving to S3
   const requestFile = req.file;
-
+  // for saving to mongoDB with mongoose
   const requestFileMetadata = fileMetadataSchema.safeParse(req.body);
 
   if (!requestFileMetadata.success) {
@@ -42,14 +40,39 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
     throw new BadRequestError(message);
   }
 
-  console.log("This is the request body: ", req.body);
-  console.log("This is the request image/file", req.file);
-
+  // Remember 'requestFile'
   const fileMetadata = requestFileMetadata.data;
 
-  console.log("This is the file metadata: ", fileMetadata);
+  // Define 'bucket's name'
+  console.log("\ntry to create or connect to S3 Bucket...")
+  const bucket_name: string = `node-${requestFileMetadata.data.nodeId}`;
 
+  // upload file to bucket
+  const uploadingFile = awsS3Client.uploadFile(
+    S3Config,
+    requestFile,
+    { bucketName: bucket_name, key: requestFile.originalname, contentType: requestFile.mimetype });
+
+  // build model(mongoose) to save metadata to MongoDB
+  const uploadingMetaData = MetadataService.createMetadata(fileMetadata);
+
+  console.log("\ntry to upload file to S3 Bucket...\n\t& try to save file data to MongoDB");
+  const uploadingProcess = await Promise.all([ // .all : parallel start
+    // uploading & saving perform concurrently
+    uploadingFile, uploadingMetaData
+  ]);
+
+  if (uploadingProcess) { // parallel processes are successfully performed.
+    console.log(`file uploaded & saved?\n\t\t${Boolean(uploadingProcess)}\n`);
+    res.status(200).send(uploadingProcess); // !!!!!! plz revise it plz !!!!!!
+  } else {
+    res.status(500).send("Server Error: Uploading process blocked");
+  }
+
+<<<<<<< HEAD
   res.status(200).send("Hello");
+=======
+>>>>>>> 7f7378b8a1545c7f370652c9b314bd1fed1898b0
 });
 
 export { uploadFileHandler };
