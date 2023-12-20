@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 interface NodeFields {
   userId: string;
+  rawData: string;
   // Public_key: String;
   dataType: string;
   createDate: string;
@@ -15,6 +16,7 @@ interface NodeModel extends mongoose.Model<NodeDocument>{
 
 interface NodeDocument extends mongoose.Document {
   userId: string;
+  rawData: string;
   // Public_key: String;
   dataType: string;
   createDate: string;
@@ -23,6 +25,7 @@ interface NodeDocument extends mongoose.Document {
 
 const NodeSchema = new mongoose.Schema({
   userId: { type: String, required: true },
+  rawData: { type: String, required: true },
   // Public_key: { type: String, required: true },
   dataType: { type: String, required: true },
   createDate: { type: String, required: true },

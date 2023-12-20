@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import { NodeModel } from "../Schema/NodeDBSchema";
 
 /**
  @precondition nodeId is in the request parameter
