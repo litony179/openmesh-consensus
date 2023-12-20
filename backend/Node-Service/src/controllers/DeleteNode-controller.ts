@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import { NodeModel } from "../Schema/NodeDBSchema";
 
 const DeleteNode = asyncHandler(async (req: Request, res: Response) => {
   // Parse the cookie to get the JWT token

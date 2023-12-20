@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
-import { CreateNode } from "../controllers/CreateNode-controller";
-import { DeleteNode } from "../controllers/DeleteNode-controller";
-import { FetchNode } from "../controllers/FetchNode-controller";
+import { CreateNode } from "../controllers/create-node-controller";
+
 
 const router = express.Router();
 
@@ -12,7 +11,5 @@ router.get("/healthCheck", (req: Request, res: Response) => {
 });
 
 router.post("/createnode", CreateNode);
-router.post("/deletenode", DeleteNode);
-router.post("/fetchnode", FetchNode);
 
 export { router as NodeRouter };
