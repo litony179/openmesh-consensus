@@ -47,6 +47,8 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   console.log("\ntry to create or connect to S3 Bucket...")
   const bucket_name: string = `node-${requestFileMetadata.data.nodeId}`;
 
+  const s3bucket = await awsS3Client.createS3Bucket(S3Config, bucket_name);
+
   // upload file to bucket
   const uploadingFile = awsS3Client.uploadFile(
     S3Config,
@@ -65,6 +67,7 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
   if (uploadingProcess) { // parallel processes are successfully performed.
     console.log(`file uploaded & saved?\n\t\t${Boolean(uploadingProcess)}\n`);
     res.status(200).send(uploadingProcess); // !!!!!! plz revise it plz !!!!!!
+
   } else {
     res.status(500).send("Server Error: Uploading process blocked");
   }

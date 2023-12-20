@@ -14,8 +14,8 @@ import { MetadataService } from "../services/metadata";
 import { writeFile } from "fs/promises";
 import { createReadStream } from "node:fs";
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage });
 
 const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => {
     /**
@@ -26,20 +26,23 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
      */
 
     // Maybe the searchMetadataSchema includes nodeid
-    const requestFileMetadata = fileMetadataSchema.safeParse(req.body);
+    const reqFileMetadata = fileMetadataSchema.safeParse(req.body);
 
+    console.log(`requested file format checking : ${reqFileMetadata}`);
 
-    if (!requestFileMetadata.success) {
-        console.log(requestFileMetadata);
-        console.log(requestFileMetadata.error.issues);
+    if (!reqFileMetadata.success) {
+        console.log(reqFileMetadata);
+        console.log(reqFileMetadata.error.issues);
 
-        throw new RequestValidationError(requestFileMetadata.error.issues);
+        throw new RequestValidationError(reqFileMetadata.error.issues);
     }
 
-    const searchMetadata = requestFileMetadata.data;
+    const searchMetadata = reqFileMetadata.data;
 
     // call metadata from MongoDB
     const existingMetadata = await MetadataService.getMetadataByRequestSchema(searchMetadata);
+
+    console.log(`mongodb checking : ${existingMetadata}`);
 
     // call file from S3 using called metadata
     /**
@@ -61,18 +64,24 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
             bucket_name,
             `${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
 
+        console.log(`aws retrieving checking : ${retrievingProcess}`);
+
         if (retrievingProcess!) {
             // res.attachment(`${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
             // const retrievingResult = await retrievingProcess.Body?.transformToWebStream().pipeTo(res);
             const retrievingResult = await retrievingProcess.Body?.transformToString();
+            console.log(`retrieving result checking : ${retrievingResult}`);
 
             if (retrievingResult!) {
+                console.log(`Trying to create a file from retrieved data`);
                 const retrievedFile = await writeFile(
-                    `../../temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`,
+                    `./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`,
                     retrievingResult);
 
-                res.attachment(`../../temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-                const fileStream = createReadStream(`../../temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+                console.log(`Is the file created? : ${retrievedFile}`);
+
+                res.attachment(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+                const fileStream = createReadStream(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
                 fileStream.pipe(res);
                 console.log("Testing: File handled!")
                 // res.status(200).send("Testing: File handled!");
