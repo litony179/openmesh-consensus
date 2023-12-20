@@ -81,8 +81,11 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
                 console.log(`Is the file created? : ${retrievedFile}`);
 
                 res.attachment(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-                const fileStream = createReadStream(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-                fileStream.pipe(res);
+                // to download the file for someone; use like this functions 
+                // const fileStream = createReadStream(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+                // fileStream.pipe(res);
+                // or use this function too.
+                res.download(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
                 console.log("Testing: File handled!")
                 // res.status(200).send("Testing: File handled!");
             }

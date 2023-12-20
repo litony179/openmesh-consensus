@@ -91,3 +91,10 @@
 [20/12/2023 15:48:06.577]	9799e445-9bdd-4d5c-93fd-2aa519afe3b0	GET	undefined	/api/uploader/healthcheck
 [20/12/2023 15:48:09.007]	3b610cdb-e254-46d8-83be-fc0f7516d654	POST	undefined	/api/uploader/uploadFile
 [20/12/2023 15:48:16.392]	63f615e9-bb90-49d6-98a6-91b9de7bc433	GET	undefined	/api/uploader/retrieve
+[20/12/2023 17:28:25.624]	cff3ddd6-55f6-4a1c-b619-0edae09f3d2b	GET	undefined	/api/uploader/healthcheck
+[20/12/2023 17:29:28.923]	1865c0fd-53da-47ec-a8c3-52b6fcaab3ce	POST	undefined	/api/uploader/uploadFile
+[20/12/2023 17:30:17.736]	234c5c86-5fe6-4fa4-ad94-1def371af966	GET	undefined	/api/uploader/retrieve
+[20/12/2023 17:30:47.447]	116a0026-b815-4bd6-80fb-931b833a87ef	GET	undefined	/api/uploader/retrieve
+[20/12/2023 17:31:15.001]	5920cc83-d7af-42e0-9f56-12e9be0a79a0	GET	undefined	/api/uploader/retrieve
+[20/12/2023 17:31:18.162]	791017a5-424f-456b-8cad-71b0fc71f5b0	GET	undefined	/api/uploader/retrieve
+[20/12/2023 17:31:47.853]	1a4e9d32-97c9-4cbb-93a7-f88a07d032cc	GET	undefined	/api/uploader/retrieve
