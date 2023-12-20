@@ -11,8 +11,23 @@ import { NotFoundError } from "../errors/not-found-error";
  */
 
 export class MetadataService {
-    static async getMetadataByNodeid(nodeId: string) {
-        const existingNode = await UploadFile.findOne({ nodeId: nodeId });
+
+    // C : Create
+    static async createMetadata(metadata: FileMetadata) {
+        const newMetadata = UploadFile.build({
+            userEmail: metadata.userEmail,
+            nodeId: metadata.nodeId,
+            dataType: metadata.dataType,
+            fileName: metadata.fileName,
+            fileExtension: metadata.fileExtension
+        });
+
+        return await newMetadata.save();
+    }
+
+    // R: Read
+    static async getMetadataByRequestSchema(schema: FileMetadata) {
+        const existingNode = await UploadFile.findOne(schema);
         const responseMetadata = existingNode?.toJSON();
         return responseMetadata;
     }

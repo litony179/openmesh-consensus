@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import multer from "multer";
-import { FileMetadata, fileMetadataSchema } from "../schemas/file-metadata";
+import { fileMetadataSchema } from "../schemas/file-metadata";
 
 import { NotFoundError } from "../errors/not-found-error";
 import { logEvents } from "../middleware/log-events";
@@ -11,7 +11,7 @@ import { awsS3Client } from "../services/s3";
 import { S3Config, awsConfig } from "../config/aws-config";
 import { UploadFile } from "../models/upload-file";
 import { MetadataService } from "../services/metadata";
-import { writeFile } from "fs";
+import fs from "fs";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -25,19 +25,20 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
      */
 
     // Maybe the searchMetadataSchema includes nodeid
-    const requestSearchMetadata = serachMetadataSchema.safeParse(req.body);
+    const requestFileMetadata = fileMetadataSchema.safeParse(req.body);
 
-    if (!requestSearchMetadata.success) {
-        console.log(requestSearchMetadata);
-        console.log(requestSearchMetadata.error.issues);
 
-        throw new RequestValidationError(requestSearchMetadata.error.issues);
+    if (!requestFileMetadata.success) {
+        console.log(requestFileMetadata);
+        console.log(requestFileMetadata.error.issues);
+
+        throw new RequestValidationError(requestFileMetadata.error.issues);
     }
 
-    const searchMetadata = requestSearchMetadata.data;
+    const searchMetadata = requestFileMetadata.data;
 
     // call metadata from MongoDB
-    const existingMetadata = await MetadataService.getMetadataByNodeid(searchMetadata.nodeId);
+    const existingMetadata = await MetadataService.getMetadataByRequestSchema(searchMetadata);
 
     // call file from S3 using called metadata
     /**
@@ -53,16 +54,17 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
      */
     if (existingMetadata!) {
 
-        const bucket_name: string = existingMetadata.nodeId;
+        const bucket_name: string = `node-${existingMetadata.nodeId}`;
         const retrievingProcess = await awsS3Client.retrieveByFileName(
             S3Config,
             bucket_name,
-            `${existingMetadata.fileName}${existingMetadata.fileExtension}`);
+            `${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
 
         if (retrievingProcess!) {
-            const retrievedFile = await retrievingProcess.Body?.transformToByteArray();
-            // !!!! discuss about 'file handling' !!!!
-            if (retrievedFile!) {
+            const retrievingResult = await retrievingProcess.Body?.transformToWebStream();
+
+            if (retrievingResult!) {
+                // const retrievedFile = await fs.writeFile(retrievingResult);
                 console.log("Testing: File handled!")
                 res.status(200).send("Testing: File handled!");
             }
