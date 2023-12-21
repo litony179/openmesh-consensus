@@ -1,32 +1,52 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
-import { BucketModel, BucketFields } from "../Models/BucketModel";
+import mongoose, { Schema, Types } from "mongoose";
+
+interface BucketFields {
+  fileName: string;
+  fileExtension: string;
+  fileContent: string;
+}
+
+interface BucketDocument extends Document, BucketFields { }
+
+const BucketSchema = new mongoose.Schema({
+  fileName: { type: String, required: true },
+  fileExtension: { type: String, required: true },
+  fileContent: { type: String, required: true },
+});
+const BucketModel = mongoose.model<BucketDocument>('Bucket', BucketSchema);
 
 interface NodeFields {
   userId: string;
   dataType: string;
   createDate: string;
   connectionType: string;
-  Bucket: BucketFields; // Use BucketFields here
+  Bucket?: Types.ObjectId | BucketFields;
 }
 
-interface NodeDocument extends Document, NodeFields {}
-
-interface NodeModel extends Model<NodeDocument> {
-  build(fields: NodeFields): NodeDocument;
+interface NodeDocument extends mongoose.Document {
+  userId: string;
+  dataType: string;
+  createDate: string;
+  connectionType: string;
+  Bucket?: Types.ObjectId | BucketFields;
 }
 
-const NodeSchema: Schema<NodeDocument, NodeModel> = new Schema({
+const NodeSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   dataType: { type: String, required: true },
   createDate: { type: String, required: true },
   connectionType: { type: String, required: true },
-  Bucket: { type: BucketModel.schema, required: false },
+  Bucket: { type: Schema.Types.ObjectId, ref: 'Bucket', required: false },
 });
 
-NodeSchema.statics.build = function (fields: NodeFields) {
-  return new this(fields);
+interface NodeModel extends mongoose.Model<NodeDocument> {
+  build(fields: NodeFields): NodeDocument;
+}
+
+NodeSchema.statics.build = (fields: NodeFields) => {
+  return new Node(fields);
 };
 
 const NodeModel = mongoose.model<NodeDocument, NodeModel>("Node", NodeSchema);
 
-export { NodeModel };
+export { Node, BucketModel, BucketDocument };

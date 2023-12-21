@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.477.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.16",
@@ -44,6 +45,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb-memory-server": "^9.1.1",
     "mongoose": "^8.0.3",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.7",
     "nvm": "^0.0.4",
     "supertest": "^6.3.3",

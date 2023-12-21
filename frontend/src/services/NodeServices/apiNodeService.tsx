@@ -3,7 +3,7 @@ const httpLink = 'http://localhost:3311/api/node/noderouter'
 export const apiCallPost = async (path: any, JWTToken: string, body: any) => {
   const response = await fetch(`${httpLink}${path}`, {
     method: "POST",
-    headers: {
+    headers: { 
       "Content-type": "application/json",
       Authorization: `Bearer ${JWTToken}`,
     },
