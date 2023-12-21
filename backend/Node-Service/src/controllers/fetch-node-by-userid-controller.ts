@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import { Node } from "../Models/NodeDefined";
+import { NodeModel } from "../Models/NodeDefined";
 
 /**
  * @precondition userId is in the request parameter
@@ -10,7 +10,7 @@ const FetchNodesByUserId = asyncHandler(async (req: Request, res: Response) => {
     const userId = req.body.userId;
 
     // Assuming you have a "Node" model and you want to find all nodes by the user ID
-    const nodes = await Node.find({ userId });
+    const nodes = await NodeModel.find({ userId });
 
     if (!nodes || nodes.length === 0) {
       res.status(404).json({ message: "No nodes found for the user" });
