@@ -1,45 +1,47 @@
-import { v4 as uuidv4 } from "uuid";
-import mongoose from "mongoose";
-import { DocumentRegistryBucketKey } from "typescript";
-import { string } from "zod";
+import mongoose, { Schema, Types } from "mongoose";
 
-const Bucket = new mongoose.Schema({
-  fileName: { type: string, required: true },
-  fileExtension: { type: string, required: true },
-  fileContent: { type: string, required: true },
+interface BucketFields {
+  fileName: string;
+  fileExtension: string;
+  fileContent: string;
+}
+
+interface BucketDocument extends Document, BucketFields { }
+
+const BucketSchema = new mongoose.Schema({
+  fileName: { type: String, required: true },
+  fileExtension: { type: String, required: true },
+  fileContent: { type: String, required: true },
 });
-const BucketModel = mongoose.model("Bucket", Bucket);
+const BucketModel = mongoose.model<BucketDocument>('Bucket', BucketSchema);
 
 interface NodeFields {
   userId: string;
-  // Public_key: String;
   dataType: string;
   createDate: string;
   connectionType: string;
-  Bucket: mongoose.Document;
-}
-
-interface NodeModel extends mongoose.Model<NodeDocument>{
-  build(fields: NodeFields): NodeDocument;
+  Bucket?: Types.ObjectId | BucketFields;
 }
 
 interface NodeDocument extends mongoose.Document {
   userId: string;
-  // Public_key: String;
   dataType: string;
   createDate: string;
   connectionType: string;
-  Bucket: mongoose.Document;
+  Bucket?: Types.ObjectId | BucketFields;
 }
 
 const NodeSchema = new mongoose.Schema({
   userId: { type: String, required: true },
-  // Public_key: { type: String, required: true },
   dataType: { type: String, required: true },
   createDate: { type: String, required: true },
   connectionType: { type: String, required: true },
-  Bucket: { type: BucketModel, required: false },
+  Bucket: { type: Schema.Types.ObjectId, ref: 'Bucket', required: false },
 });
+
+interface NodeModel extends mongoose.Model<NodeDocument> {
+  build(fields: NodeFields): NodeDocument;
+}
 
 NodeSchema.statics.build = (fields: NodeFields) => {
   return new Node(fields);
@@ -47,4 +49,4 @@ NodeSchema.statics.build = (fields: NodeFields) => {
 
 const Node = mongoose.model<NodeDocument, NodeModel>("Node", NodeSchema);
 
-export { Node };
+export { Node, BucketModel, BucketDocument };

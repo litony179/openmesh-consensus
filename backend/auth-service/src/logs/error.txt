@@ -47,3 +47,4 @@
 [12/12/2023 18:59:21.162]	19b9e9dc-b9b0-4c86-87ef-edd2281750af	POST	undefined	/generateotp	[{"code":"invalid_type","expected":"string","received":"undefined","path":["userEmail"],"message":"Required"}]
 [12/12/2023 18:59:21.193]	c23d98a3-3805-4d1d-8f7c-3349808758f3	POST	undefined	/generateotp	[{"validation":"email","code":"invalid_string","message":"Please provide a valid email address.","path":["userEmail"]}]
 [19/12/2023 07:19:26.462]	964a306d-9034-4912-9dfb-5b70be58c3e2	POST	undefined	loginuser	User does not exist. Please register.
+[21/12/2023 15:11:53.597]	427e8d1b-b565-4463-823a-1ba3afe3bdea	POST	undefined	loginuser	User does not exist. Please register.

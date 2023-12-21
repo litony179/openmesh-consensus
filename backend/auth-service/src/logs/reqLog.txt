@@ -128,3 +128,7 @@
 [21/12/2023 06:33:34.952]	8fb75a26-3122-4bba-8429-f9fad4157942	POST	undefined	/api/users/v1/authentication/loginuser
 [21/12/2023 06:57:31.062]	df31ca7f-30bc-4fda-91be-92960f52a418	POST	undefined	/api/users/v1/authentication/loginuser
 [21/12/2023 07:07:44.341]	63a63477-0b30-45e6-854c-30978d3b5f6a	POST	undefined	/api/users/v1/authentication/loginuser
+[21/12/2023 15:11:51.546]	92bbb116-802c-4e92-ac24-d1c6a131bece	POST	undefined	/api/users/v1/authentication/loginuser
+[21/12/2023 15:12:13.435]	dbeeea63-fb96-456e-9ed5-8405ee54ce54	GET	undefined	/api/users/v1/authentication/healthcheck
+[21/12/2023 15:12:30.335]	565e4acd-7a52-469d-9ec7-590102fc7be6	POST	undefined	/api/users/v1/authentication/registeruser
+[21/12/2023 15:12:35.876]	96f39c1c-b232-4e36-a647-05bb87386784	POST	undefined	/api/users/v1/authentication/loginuser
