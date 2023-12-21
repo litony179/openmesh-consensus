@@ -16,17 +16,35 @@ declare global {
   }
 }
 const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization || req.headers.Authorization;
+  const cookieHeader = req.headers.cookie;
 
-  if (!authHeader) {
+  console.log("Cookie Header:", cookieHeader);
+
+  if (!cookieHeader || typeof cookieHeader !== "string") {
+    console.error("Invalid or missing cookie header");
     throw new NotAuthorisedError();
   }
 
-  const token = Array.isArray(authHeader)
-    ? authHeader[0].split(" ")[1]
-    : authHeader.split(" ")[1];
+  const jwtCookie = cookieHeader
+    .split("; ")
+    .find((cookie) => cookie.startsWith("jwt="));
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, user) => {
+  if (!jwtCookie) {
+    console.error("JWT token not found in the cookie");
+    throw new NotAuthorisedError();
+  }
+
+  const jwttoken = jwtCookie.split("=")[1];
+
+  console.log("JWT Token:", jwttoken);
+  console.log("Access token universal", process.env.ACCESS_TOKEN_SECRET);
+  const decodedToken = jwt.decode(jwttoken, { complete: true });
+  console.log("Decoded Token", decodedToken);
+
+  const SecretToken = decodedToken?.signature;
+  console.log("SecretToken", SecretToken);
+
+  jwt.verify(jwttoken, SecretToken!, (err, user) => {
     if (err) {
       console.log(err);
       return res.sendStatus(403);
@@ -38,6 +56,7 @@ const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     req.userRoles = (user as JwtPayload).UserInfo.userRoles;
     next();
   });
+  return decodedToken;
 };
 
 export { verifyJWT };
