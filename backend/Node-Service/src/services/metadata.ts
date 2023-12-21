@@ -1,5 +1,5 @@
 import { UploadFile } from "../Models/upload-file";
-import { FileMetadata } from "../Schema/file-metadata";
+import { FileMetadata } from "../Schema/filerequest-schema";
 import { BadRequestError } from "../errors/bad-request-error";
 import { NotFoundError } from "../errors/not-found-error";
 

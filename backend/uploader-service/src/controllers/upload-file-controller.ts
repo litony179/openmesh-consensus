@@ -72,10 +72,6 @@ const uploadFileHandler = asyncHandler(async (req: Request, res: Response) => {
     res.status(500).send("Server Error: Uploading process blocked");
   }
 
-<<<<<<< HEAD
-  res.status(200).send("Hello");
-=======
->>>>>>> 7f7378b8a1545c7f370652c9b314bd1fed1898b0
 });
 
 export { uploadFileHandler };

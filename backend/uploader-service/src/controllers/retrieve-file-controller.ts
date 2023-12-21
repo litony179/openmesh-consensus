@@ -62,7 +62,7 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
         const retrievingProcess = await awsS3Client.retrieveByFileName(
             S3Config,
             bucket_name,
-            `${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+            existingMetadata.fileName);
 
         console.log(`aws retrieving checking : ${retrievingProcess}`);
 
@@ -70,22 +70,24 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
             // res.attachment(`${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
             // const retrievingResult = await retrievingProcess.Body?.transformToWebStream().pipeTo(res);
             const retrievingResult = await retrievingProcess.Body?.transformToString();
-            console.log(`retrieving result checking : ${retrievingResult}`);
+            console.log(`retrieving result checking :\n${retrievingResult}`);
 
             if (retrievingResult!) {
                 console.log(`Trying to create a file from retrieved data`);
                 const retrievedFile = await writeFile(
-                    `./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`,
+                    `./temp/${existingMetadata.fileName}`,
                     retrievingResult);
 
-                console.log(`Is the file created? : ${retrievedFile}`);
+                console.log("writefile checking\n");
+                console.log(retrievedFile);
+                console.log("\n")
 
-                res.attachment(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+                res.attachment(`./temp/${existingMetadata.fileName}`);
                 // to download the file for someone; use like this functions 
                 // const fileStream = createReadStream(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
                 // fileStream.pipe(res);
                 // or use this function too.
-                res.download(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
+                res.download(`./temp/${existingMetadata.fileName}`);
                 console.log("Testing: File handled!")
                 // res.status(200).send("Testing: File handled!");
             }

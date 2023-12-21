@@ -4,7 +4,7 @@ import { FetchNode } from "./FetchNode-controller";
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import multer from "multer";
-import { fileMetadataSchema } from "../Schema/file-metadata";
+import { fileRetrieveSchema } from "../Schema/filerequest-schema";
 
 import { NotFoundError } from "../errors/not-found-error";
 import { logEvents } from "../middleware/log-events";
@@ -16,105 +16,9 @@ import { UploadFile } from "../Models/upload-file";
 import { MetadataService } from "../services/metadata";
 import { writeFile } from "fs/promises";
 import { createReadStream } from "node:fs";
-import { NodeClass } from "../Models/NodeDefined";
-
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage });
-
-// const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => {
-//     // fetch data
-
-//     // read data into node
-
-//     // potentionally print data
-//     /** Node-Service            |   Uploader-Service
-//      * -------------------------|--------------------------
-//      *  NodeHash: String;       |   userEmail: String
-//         UserId: string;         |   nodeId: String
-//         Public_key: String;     |   dataType: String
-//         DataMajor: String;      |   fileName: String
-//         CreateDate: String;     |   fileExtension: String
-//         ConnectionType: String; |
-//      */
-
-//     // Maybe the searchMetadataSchema includes nodeid
-//     const reqFileMetadata = fileMetadataSchema.safeParse(req.body);
-
-//     console.log(`requested file format checking : ${reqFileMetadata}`);
-
-//     if (!reqFileMetadata.success) {
-//         console.log(reqFileMetadata);
-//         console.log(reqFileMetadata.error.issues);
-
-//         throw new RequestValidationError(reqFileMetadata.error.issues);
-//     }
-
-//     const searchMetadata = reqFileMetadata.data;
-
-//     // call metadata from MongoDB
-//     const existingMetadata = await MetadataService.getMetadataByRequestSchema(searchMetadata);
-
-//     console.log(`mongodb checking : ${existingMetadata}`);
-
-//     // call file from S3 using called metadata
-//     /**
-//      * {
-//         "userEmail": "altair01@test.io",
-//         "nodeId": "nodu1dxx87",
-//         "dataType": "Health",
-//         "fileName": "altairSecret",
-//         "fileExtension": "txt",
-//         "_id": "65812cbbc94e8687df41e235",
-//         "__v": 0
-//     }
-//      */
-//     if (existingMetadata!) {
-
-//         const bucket_name: string = `node-${existingMetadata.nodeId}`;
-//         const retrievingProcess = await awsS3Client.retrieveByFileName(
-//             S3Config,
-//             bucket_name,
-//             `${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-
-//         console.log(`aws retrieving checking : ${retrievingProcess}`);
-
-//         if (retrievingProcess!) {
-//             // res.attachment(`${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-//             // const retrievingResult = await retrievingProcess.Body?.transformToWebStream().pipeTo(res);
-//             const retrievingResult = await retrievingProcess.Body?.transformToString();
-//             console.log(`retrieving result checking : ${retrievingResult}`);
-
-//             if (retrievingResult!) {
-//                 console.log(`Trying to create a file from retrieved data`);
-//                 const retrievedFile = await writeFile(
-//                     `./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`,
-//                     retrievingResult);
-
-//                 console.log(`Is the file created? : ${retrievedFile}`);
-
-//                 res.attachment(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-//                 // to download the file for someone; use like this functions 
-//                 // const fileStream = createReadStream(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-//                 // fileStream.pipe(res);
-//                 // or use this function too.
-//                 res.download(`./temp/${existingMetadata.fileName}.${existingMetadata.fileExtension}`);
-//                 console.log("Testing: File handled!")
-//                 // res.status(200).send("Testing: File handled!");
-//             }
-//         } else {
-//             console.log("Error: restoring retrieved data failed");
-//             res.status(500).send("Error: restoring retrieved data failed.")
-//         }
-
-//     } else {
-//         // !!!! plz revise it plz !!!!
-//         console.log("Error: retrieve data failed");
-//         res.status(500).send("Error: retrieve data failed.");
-//     }
-
-// });
-
-// export { retrieveFileHandler };
+import { Node } from "../Models/NodeDefined";
+import { nodeCreateSchema } from "../Schema/node-schema";
+import { FileRetrieveService } from "../services/filerequest"
 
 const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => {
     // fetch data
@@ -122,24 +26,61 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
     // read data into node
 
     // potentionally print data
-    /** Node-Service            |   Uploader-Service
-     * -------------------------|--------------------------
-     *  NodeHash: String;       |   userEmail: String
-        UserId: string;         |   nodeId: String
-        Public_key: String;     |   dataType: String
-        DataMajor: String;      |   fileName: String
-        CreateDate: String;     |   fileExtension: String
-        ConnectionType: String; |
+    /** Node-Service            |   Uploader-Service        |   filerequest-Schema
+     * -------------------------|---------------------------|-------------------------
+     *  userId: String;         |   userEmail: String       |   userId: String
+        dataType: string;       |   nodeId: String          |   nodeId: String
+        createDate: String;     |   dataType: String        |   dataType: String
+        connectionType: String; |   fileName: String        |   fileName: String
+                                |   fileExtension: String   |   fileExtension: String
+       -------------------------|---------------------------|-------------------------
+                                                            |       current use
      */
+    // who request data?
+    const file_request = fileRetrieveSchema.safeParse(req.body);
+    // 1. request check
+    if (!file_request.success) {
+        logEvents(
+            `${req.method}\t${req.headers.origin}\t${req.url}\t${JSON.stringify(
+                file_request.error.issues
+            )}`,
+            "error.txt"
+        );
+        throw new RequestValidationError(file_request.error.issues);
+    }
+    // 2. is he/she enrolled(trusted) Node?
+    const isExistingNode = await FileRetrieveService.checkExistingNode(file_request.data);
 
-    const bucket_name: string = `node-${NodeHash}`;
+    if (!isExistingNode) {
+        throw new Error("Error occured in searching node is existing!");
+    }
+
+    const fileRequest = file_request.data;
+
+    // 3. According to Bucket naming
+    const bucket_name: string = `node-${fileRequest.nodeId}`;
+    const file_full_name: string = fileRequest.fileName;
+    // 4. Request file from given bucketname
     const retrievingProcess = await awsS3Client.retrieveByFileName(
         S3Config,
         bucket_name,
-        `${fileName}.${fileExtension}`);
+        file_full_name);
 
     console.log(`aws retrieving checking : ${retrievingProcess}`);
 
+    // 5. respond file save to mongoDB
+    if (retrievingProcess!) {
+        const retrievingResult = await retrievingProcess.Body?.transformToString();
+        console.log(`retrieving result checking :\n\n${retrievingResult}\n\n`);
+
+        if (retrievingResult!) {// Save file content into mongoDB
+            const savingFile =
+                FileRetrieveService.saveFileToNewModel(
+                    fileRequest.nodeId,
+                    fileRequest,
+                    retrievingResult);
+        }
+    }
 });
 
 export { retrieveFileHandler };
