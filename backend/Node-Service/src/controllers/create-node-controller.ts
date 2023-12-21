@@ -9,7 +9,7 @@ import { logEvents } from "../middleware/log-events";
 const CreateNode = asyncHandler(async (req: Request, res: Response) => {
   // Validating request data
   const authenticateNodeData = nodeCreateSchema.safeParse(req.body);
-
+  console.log("Request Body:", req.body);
   if (!authenticateNodeData.success) {
     logEvents(
       `${req.method}\t${req.headers.origin}\t${req.url}\t${JSON.stringify(
@@ -19,6 +19,9 @@ const CreateNode = asyncHandler(async (req: Request, res: Response) => {
     );
     throw new RequestValidationError(authenticateNodeData.error.issues);
   }
+  const userId = req.body.userId;
+  const dataType = req.body.dataType;
+  const 
 
   // Save the new node to MongoDB using the NodeModel
   const savedNode = await NodeModel.create(req.body);

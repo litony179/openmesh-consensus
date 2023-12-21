@@ -6,7 +6,7 @@ interface NodeFields {
   dataType: string;
   createDate: string;
   connectionType: string;
-  Bucket: BucketFields; // Use BucketFields here
+  // Bucket?: BucketFields;
 }
 
 interface NodeDocument extends Document, NodeFields {}
@@ -20,7 +20,7 @@ const NodeSchema: Schema<NodeDocument, NodeModel> = new Schema({
   dataType: { type: String, required: true },
   createDate: { type: String, required: true },
   connectionType: { type: String, required: true },
-  Bucket: { type: BucketModel.schema, required: false },
+  // Bucket: { type: BucketModel.schema, required: false },
 });
 
 NodeSchema.statics.build = function (fields: NodeFields) {
