@@ -40,7 +40,6 @@ export const ViewOwnedNodes = () => {
     },
   ];
 
-
   return (
     <>
       <div>
@@ -77,7 +76,6 @@ interface INodeProps {
 //{ nodeId, userId, dataType, createDate, connectionType }
 const BuildSingleNode: React.FC<INodeProps> = ({ nodeId, userId, dataType, createDate, connectionType }) => {
   // THIS MIGHT NOT WORK ....
-  // const nodeId = node.nodeId; // MIGHT BE WRONGG
   const getId = () => {
     localStorage.setItem('nodeId', nodeId);
     console.log('nodeId: ', nodeId);
