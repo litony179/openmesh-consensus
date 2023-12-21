@@ -1,7 +1,8 @@
 @import './variables';
 
 .register-form {
-  max-width: 400px;
+  min-width: 350px;
+  max-width: 600px;
   margin: 2rem auto;
   background: $primary-background-color;
   padding: 2rem;

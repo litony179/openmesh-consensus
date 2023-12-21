@@ -35,10 +35,11 @@ export const LoginPage: React.FC = () => {
   return (
     <>
       <div className='d-flex center'>
-        <img src={LoginRegisterImg} alt='logo' className='w-70 big-img pl-3 pt-2' />
-        <form className="login-form w-70" onSubmit={handleLogin}>
+        <img src={LoginRegisterImg} alt='logo' className='w-70 big-img ml-3 mt-2' />
+        <form className="login-form" onSubmit={handleLogin}>
           <h2>Login</h2>
           <div className="form-group">
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               name="userEmail"
@@ -49,6 +50,7 @@ export const LoginPage: React.FC = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               name="userPassword"
@@ -63,10 +65,8 @@ export const LoginPage: React.FC = () => {
           <br />
           <br />
           <a href="/forgot-password" className='center-span'>Forgot Password?</a>
-          <br />
 
           <hr />
-          <br />
 
           <span className='center-span'>No account?&nbsp;&nbsp;<a href="/register" className='underline'>Register</a></span>
         </form>

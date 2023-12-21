@@ -40,11 +40,12 @@ export const SignupPage: React.FC = () => {
 
   return (
     <>
-      <div className='d-flex'>
-        <img src={LoginRegisterImg} alt='logo' className='w-50 big-img pl-3 pt-1' />
-        <form className="register-form w-50 pt-2" onSubmit={handleRegister} >
-          <h2>Register</h2>
+      <div className='d-flex center'>
+        <img src={LoginRegisterImg} alt='logo' className='w-50 big-img ml-3 mt-2' />
+        <form className="register-form pt-2 mt-5" onSubmit={handleRegister} >
+          <h2 className='pb-2 pt-3'>Register</h2>
           <div className="form-group">
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               name="userFirstName"
@@ -53,6 +54,7 @@ export const SignupPage: React.FC = () => {
               onChange={handleChange}
               required
             />
+
             <input
               type="text"
               name="userLastName"
@@ -63,6 +65,7 @@ export const SignupPage: React.FC = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="email">Email</label>
             <input
               type="Email"
               name="userEmail"
@@ -73,6 +76,7 @@ export const SignupPage: React.FC = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               name="userPassword"
@@ -83,6 +87,7 @@ export const SignupPage: React.FC = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="password">Confirm Password</label>
             <input
               type="password"
               name="userConfirmPassword"
