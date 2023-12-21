@@ -1,24 +1,15 @@
-import { FetchNode } from "./FetchNode-controller";
-
-
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import multer from "multer";
-import { fileRetrieveSchema } from "../Schema/filerequest-schema";
+import { fileRetrieveSchema } from "../Schema/fileretrieve-schema";
 
 import { NotFoundError } from "../errors/not-found-error";
 import { logEvents } from "../middleware/log-events";
 import { BadRequestError } from "../errors/bad-request-error";
 import { RequestValidationError } from "../errors/request-validation-error";
 import { awsS3Client } from "../services/s3";
-import { S3Config, awsConfig } from "../config/aws-config";
-import { UploadFile } from "../Models/upload-file";
-import { MetadataService } from "../services/metadata";
-import { writeFile } from "fs/promises";
-import { createReadStream } from "node:fs";
-import { Node } from "../Models/NodeDefined";
-import { nodeCreateSchema } from "../Schema/node-schema";
-import { FileRetrieveService } from "../services/filerequest"
+import { S3Config } from "../config/aws-config";
+import { FileRetrieveService } from "../services/fileretrieve"
 
 const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => {
     // fetch data
@@ -49,7 +40,7 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
         throw new RequestValidationError(file_request.error.issues);
     }
     // 2. is he/she enrolled(trusted) Node?
-    const isExistingNode = await FileRetrieveService.checkExistingNode(file_request.data);
+    const isExistingNode = await FileRetrieveService.isExistingNode(file_request.data);
 
     if (!isExistingNode) {
         throw new Error("Error occured in searching node is existing!");
@@ -71,14 +62,18 @@ const retrieveFileHandler = asyncHandler(async (req: Request, res: Response) => 
     // 5. respond file save to mongoDB
     if (retrievingProcess!) {
         const retrievingResult = await retrievingProcess.Body?.transformToString();
-        console.log(`retrieving result checking :\n\n${retrievingResult}\n\n`);
+        console.log(`retrieving result checking :\n\n${retrievingResult}\n`);
 
         if (retrievingResult!) {// Save file content into mongoDB
             const savingFile =
-                FileRetrieveService.saveFileToNewModel(
-                    fileRequest.nodeId,
+                await FileRetrieveService.saveFile(
                     fileRequest,
                     retrievingResult);
+
+            console.log(`\nTrying to save file into MongoDB\n`)
+            console.log(savingFile);
+            console.log(`\n`)
+            res.status(200).send(savingFile);
         }
     }
 });
