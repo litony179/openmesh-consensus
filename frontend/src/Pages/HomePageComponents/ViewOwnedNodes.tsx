@@ -48,7 +48,8 @@ const FileUploadButton: React.FC = () => {
   );
 };
 
-const BuildSingleNode = () => {
+const BuildSingleNode = (node: any) => {
+
   return (
     <>
       <div>hi</div>

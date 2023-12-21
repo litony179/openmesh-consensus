@@ -1,5 +1,4 @@
-import { apiCallPost, apiCallGet } from "../api";
-
+import { apiCallGet, apiCallPost } from "./apiAuthService";
 export interface IRegisterInput {
   userFirstName: string;
   userLastName: string;

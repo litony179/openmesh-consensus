@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
+import { CreateNode } from '../../services/NodeServices/NodeService';
+import { UserContext } from '../../Context/UserContext';
 //notes: Might want to re-confirm user on creating a node.
 /**
  * 
@@ -9,6 +10,7 @@ export const ModalCreateNode = () => {
   // State for storing selection values
   const [dataType, setDataType] = useState('health');
   const [connectionType, setConnectionType] = useState('RESTful');
+  const { JWTToken } = useContext(UserContext);
 
   // Handlers for selection changes
   const handleDataTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -20,9 +22,9 @@ export const ModalCreateNode = () => {
   };
 
   // Handler for save changes
-  const handleSaveChanges = () => {
-    console.log(`Data Major: ${dataType}, Connection Type: ${connectionType}`);
-    // Here you can add code to send data to backend or perform other actions
+  const handleCreateNode = async () => {
+    const nodeSpecs = { dataType: dataType, connectionType: connectionType };
+    await CreateNode(JWTToken, nodeSpecs);
   };
 
   return (
@@ -54,7 +56,7 @@ export const ModalCreateNode = () => {
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" className="btn btn-primary" onClick={handleSaveChanges} data-bs-dismiss="modal">Save changes</button>
+            <button type="button" className="btn btn-primary" onClick={handleCreateNode} data-bs-dismiss="modal">Save changes</button>
           </div>
         </div>
       </div>
