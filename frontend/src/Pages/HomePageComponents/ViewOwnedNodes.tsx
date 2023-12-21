@@ -13,14 +13,13 @@ import React, { ChangeEvent, useState } from 'react';
  */
 export const ViewOwnedNodes = () => {
   // State for storing selection values
-  const builNodeHtml = () => {
 
-  }
   return (
     <>
       <div>
         view all nodes you own +analytics?
       </div>
+      <BuildSingleNode />
       <div >
         <span>upload </span>
         <FileUploadButton />
@@ -48,3 +47,11 @@ const FileUploadButton: React.FC = () => {
     </div>
   );
 };
+
+const BuildSingleNode = () => {
+  return (
+    <>
+      <div>hi</div>
+    </>
+  )
+}
