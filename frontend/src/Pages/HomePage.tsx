@@ -36,11 +36,12 @@ export const HomePage = () => {
             <div>second</div>
           </div>
           <div className="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab">
-            {ViewPublicNodes()}
+            {ViewOwnedNodes()}
             <div>third</div>
           </div>
           <div className="tab-pane fade" id="public-node-tab-pane" role="tabpanel" aria-labelledby="public-node-tab">
-           
+            {ViewPublicNodes()}
+
             <div>fourth</div>
           </div>
           <div className="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabIndex={0}>in construction</div>

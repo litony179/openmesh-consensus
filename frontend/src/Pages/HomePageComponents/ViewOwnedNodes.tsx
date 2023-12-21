@@ -13,7 +13,9 @@ import React, { ChangeEvent, useState } from 'react';
  */
 export const ViewOwnedNodes = () => {
   // State for storing selection values
+  const builNodeHtml = () => {
 
+  }
   return (
     <>
       <div>
