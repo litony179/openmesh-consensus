@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../Context/UserContext";
 
 export const NavBar = () => {
-  const { isAuthenticated, user, logoutUser } = useUser();
+  const { isAuthenticated, logoutUser } = useUser();
   const navigate = useNavigate();
 
   const handleLogout = async (e: any) => {
@@ -26,10 +26,6 @@ export const NavBar = () => {
           {isAuthenticated ? (
             <>
               <button className="btn-login" onClick={handleLogout}>Logout</button>
-              <button className="btn-login" onClick={() => {
-                console.log(isAuthenticated) // test if user data is saved
-                console.log(user)
-              }}>isAuthenticated</button>
             </>
           ) : (
             <>

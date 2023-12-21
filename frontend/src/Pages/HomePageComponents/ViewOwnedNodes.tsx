@@ -42,13 +42,11 @@ export const ViewOwnedNodes = () => {
 
   return (
     <>
-      <div>
-        view all nodes you own +analytics?
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="container col-4 border border-danger">left LANE</div>
-          <div className="container col-6 border border-danger">rigjht
+      <div className="container-fluid mt-5 d-flex m-0 djustify-content-center align-items-center">
+        <div className="row w-100 mx-auto">
+          {/* Proportion is currently 4:7 (left: right column size) */}
+          <div className="container-fluid col-md-4 border border-danger mx-auto mh-c" aira-label='left-column'>Number of nodes + analytics here</div>
+          <div className="container-fluid col-md-7 border border-danger mx-auto mh-c p-4" aria-label='right-column'>
             {nodeList.map(node => (
               <BuildSingleNode key={node.nodeId} {...node} />
             ))}
@@ -72,8 +70,8 @@ interface INodeProps {
   connectionType: string,
 
 }
+
 // create inidvidual modal for each of them
-//{ nodeId, userId, dataType, createDate, connectionType }
 const BuildSingleNode: React.FC<INodeProps> = ({ nodeId, userId, dataType, createDate, connectionType }) => {
   // THIS MIGHT NOT WORK ....
   const getId = () => {

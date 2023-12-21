@@ -7,6 +7,17 @@ interface INodeSpecs {
   connectionType: string;
 }
 
+/**
+ * When the button is clicked
+ * 1. sends request to create node
+ * 2. Clear User Nodes
+ * 3. build user nodes
+ * 4. Clear public nodes
+ * 5. build public nodes.
+ * @param JWTToken 
+ * @param nodeSpecs 
+ * @returns 
+ */
 export const CreateNode = async (JWTToken: string, nodeSpecs: INodeSpecs) => {
   console.log("CREATING NODE")
   try {

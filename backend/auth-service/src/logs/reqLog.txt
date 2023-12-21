@@ -175,3 +175,16 @@
 [21/12/2023 17:10:42.668]	8fc44027-bc7f-41c5-a3fc-1c1467294461	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
 [21/12/2023 19:03:32.684]	f2dbc403-cccc-4d95-8cc1-46970d743748	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
 [21/12/2023 19:03:32.687]	27754144-a89f-470a-b164-38e94ae5b17e	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:07:40.462]	54d1e8cc-39ad-44b1-aa41-5b55c2358908	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:07:40.464]	a97e7c66-e46d-431c-ae43-2881e28eb10c	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:08:09.002]	b7abccd7-8c32-4c96-adc7-6ef2ee847a82	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:08:09.004]	0ceca795-4325-44e3-b9a6-ca7d2601af2c	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:38:08.222]	77763693-1c36-4abe-9a87-1ffd8cc9dffe	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:38:08.225]	f76735cd-d517-4c2e-a84d-7f4827316fce	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:39:09.366]	08f6c034-aaf2-4b8a-b531-ec0844a68619	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:39:09.371]	eba739ed-49cf-440b-89c3-7a58f599f97d	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:39:13.280]	e3f08aa0-6a2d-4461-9182-1deb078231e6	OPTIONS	http://localhost:3001	/api/users/v1/authentication/logout
+[22/12/2023 00:39:15.071]	89f17c80-2243-4977-a6c9-942b31b5ac82	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:39:15.073]	11c4675e-bd17-428b-a9d3-5545560e777a	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:40:50.848]	ea8528eb-d522-45ad-9286-f0c16ba1a950	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 00:40:50.849]	84a0b9cb-71e6-48a9-94d3-555dc0ffab45	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
