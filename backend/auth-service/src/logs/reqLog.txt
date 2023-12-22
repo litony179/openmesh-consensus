@@ -138,3 +138,12 @@
 [22/12/2023 16:48:02.680]	6b770295-a9d6-4442-aa96-82b10dfd0282	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
 [22/12/2023 16:49:00.667]	0711c939-e525-45f6-8c6c-3d470b04adc7	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
 [22/12/2023 16:49:00.670]	3561b3a5-2217-46e3-a800-358fc4b7b4bc	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 17:50:02.161]	1bf16494-780a-4e1b-8135-7145bf6c67b7	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 17:50:02.163]	336d9afa-72b0-4bf6-a7e5-b7e011f1fa3c	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 17:50:16.398]	69f4f3e1-cd64-4f9c-9ab1-cc21c9a8a03a	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 17:50:16.399]	15b9f022-eed5-4ad2-85ec-4f4bb711d0fd	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 17:59:22.109]	b830639f-2fe6-4cde-9ef9-4f949a03f146	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 17:59:22.111]	ae88f4c3-c150-41ba-a189-bdb35ff0f342	POST	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 18:03:19.683]	47b82824-9608-44d2-bdaf-6ddebc8eb8d9	OPTIONS	http://localhost:3001	/api/users/v1/authentication/logout
+[22/12/2023 18:03:21.401]	07047511-559b-4fb4-8f50-84b4f562c74e	OPTIONS	http://localhost:3001	/api/users/v1/authentication/loginuser
+[22/12/2023 18:03:21.403]	10aa9877-e05b-4956-874c-cef71f781e43	POST	http://localhost:3001	/api/users/v1/authentication/loginuser

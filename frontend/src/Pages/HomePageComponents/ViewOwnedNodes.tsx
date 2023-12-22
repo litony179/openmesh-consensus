@@ -74,9 +74,9 @@ export const BuildSingleNode: React.FC<INodeProps> = ({ _id, userId, dataType, c
       <div className="card border-success mb-3" style={{ maxWidth: '100%' }}>
         <div className="card-body text-success">
           <div className="text-start">
-          <p className="card-text">nodeId:{_id}</p>
-          <p className="card-text">type:{dataType}</p>
-          <p className="card-text">connectionType:{connectionType}</p>
+            <p className="card-text">nodeId:{_id}</p>
+            <p className="card-text">type:{dataType}</p>
+            <p className="card-text">connectionType:{connectionType}</p>
           </div>
           <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#nodeModal-${_id}`}>
             Inspect
@@ -103,7 +103,7 @@ const NodeModal: React.FC<INodeProps> = ({ _id, userId, dataType, createDate, co
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id={`${modalId}Label`}>Modal title</h5>
+            <h5 className="modal-title" id={`${modalId}Label`}></h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">

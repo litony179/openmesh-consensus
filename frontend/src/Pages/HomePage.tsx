@@ -54,8 +54,8 @@ export const HomePage = () => {
           </ul>
         </div>
         <div className="tab-content" id="myTabContent">
-          <div className="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
-            <button className="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalCreateNode">Create node</button>
+          <div className="tab-pane d-flex font-monospace justify-content-center align-items-center fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+            <button className="btn btn-info w-50 fs-3 centered-btn" data-bs-toggle="modal" data-bs-target="#modalCreateNode">Create node</button>
             {ModalCreateNode()}
           </div>
           <div className="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab">
