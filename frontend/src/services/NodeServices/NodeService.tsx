@@ -44,10 +44,10 @@ export const GetAllUserNodes = async (JWTToken: string, userId: string) => {
   console.log("Get all user nodes")
   try {
     console.log(userId)
-    const response = await apiCallPost('/fetchnodeUID', JWTToken, userId);
+    const response = await apiCallPost('/fetchnodeUID', JWTToken, {userId});
     console.log(response);
     if (!response.errors) { // backend does not send status 200, so we check from errors
-      return response.userAccessToken; // return the JWT
+      return response; // return the JWT
     } else {
       console.error('Login failed:', response);
     }

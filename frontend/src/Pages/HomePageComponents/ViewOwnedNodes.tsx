@@ -1,19 +1,16 @@
-import React, { ChangeEvent, useState, useContext, useEffect } from 'react';
-import { UserContext } from '../../Context/UserContext';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import { GetAllUserNodes } from '../../services/NodeServices/NodeService';
 
 interface INode {
-  nodeId: string;
+  _id: string; // Node id
   userId: string;
   dataType: string;
   createDate: string;
   connectionType: string;
 }
 
-type INodeArray = INode[];
-
-
 /**
+ * BUILT WITHIN A CONTAINER ID user-nodes-container
  * Functions Required:
  * 1. fetch all nodes owned.
  * 
@@ -24,64 +21,39 @@ type INodeArray = INode[];
  * 
  * @returns 
  */
-export const ViewOwnedNodes = () => {
+export const GetOwnedNodes = (userId: string, JWTToken: string) => {
+  console.log('getowned nodes')
   // State for storing selection values
-  const { user, JWTToken } = useContext(UserContext);
-  const [nodeList, setNodeList] = useState<INodeArray>([]); // Add type annotation to nodeList
+  const [nodeList, setNodeList] = useState<INode[]>([{
+    _id: "string", // Node id
+    userId: "string",
+    dataType: "string",
+    createDate: "string",
+    connectionType: "string",
+  }]); // Add type annotation to nodeList
   useEffect(() => {
     const fetchNodes = async () => {
-      if (user?.UserInfo.userId && JWTToken) {
-        const nodes = await GetAllUserNodes(JWTToken, user.UserInfo.userId);
-        setNodeList(nodes);
-        console.log(nodes);
-      }
+      console.log('FETCHING NODES')
+      const nodes = await GetAllUserNodes(JWTToken, userId);
+      setNodeList(nodeList);
+      console.log(nodes);
     };
-
     fetchNodes();
-  }, [user, JWTToken]);
-  // const nodeList = [
-  //   {
-  //     nodeId: '1',
-  //     userId: 'node1',
-  //     dataType: 'type1',
-  //     createDate: 'data1',
-  //     connectionType: 'data1',
-
-  //   },
-  //   {
-  //     nodeId: '2',
-  //     userId: 'node2',
-  //     dataType: 'type2',
-  //     createDate: 'data2',
-  //     connectionType: 'data2',
-
-  //   },
-  // ];
+  }, [JWTToken, userId]);
 
   return (
-    <>
-      <div className="container-fluid mt-5 d-flex m-0 djustify-content-center align-items-center">
-        <div className="row w-100 mx-auto">
-          {/* Proportion is currently 4:7 (left: right column size) */}
-          <div className="container-fluid col-md-4 border border-danger mx-auto mh-c" aira-label='left-column'>Number of nodes + analytics here</div>
-          <div className="container-fluid col-md-7 border border-danger mx-auto mh-c p-4" aria-label='right-column'>
-            {/* {nodeList.map(node => (
-              <BuildSingleNode key={node.nodeId} {...node} />
-            ))} */}
-          </div>
-        </div>
-      </div>
-      <div >
-
-      </div>
-    </>
+    <div>
+      {nodeList.map(node => (
+        <BuildSingleNode key={node._id} {...node} />
+      ))}
+    </div>
   );
 };
 
 // NODE OBJECT
 interface INodeProps {
 
-  nodeId: string,
+  _id: string,
   userId: string,
   dataType: string,
   createDate: string,
@@ -90,23 +62,26 @@ interface INodeProps {
 }
 
 // create inidvidual modal for each of them
-const BuildSingleNode: React.FC<INodeProps> = ({ nodeId, userId, dataType, createDate, connectionType }) => {
+export const BuildSingleNode: React.FC<INodeProps> = ({ _id, userId, dataType, createDate, connectionType }) => {
   // THIS MIGHT NOT WORK ....
   const getId = () => {
-    localStorage.setItem('nodeId', nodeId);
-    console.log('nodeId: ', nodeId);
+    localStorage.setItem('nodeId', _id);
+    console.log('nodeId: ', _id);
   }
 
   return (
     <div onClick={getId}>
       <div className="card border-success mb-3" style={{ maxWidth: '18rem' }}>
-        <div className="card-body text-success">
-          <p className="card-text">This is inline node</p>
-          <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#nodeModal-${nodeId}`}>
+        <div className="card-body text-success text-start">
+          <p className="card-text">nodeId:{_id}</p>
+          <p className="card-text">type:{dataType}</p>
+          <p className="card-text">connectionType:{connectionType}</p>
+
+          <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#nodeModal-${_id}`}>
             Inspect
           </button>
         </div>
-        <NodeModal nodeId={nodeId} userId={userId} dataType={dataType} createDate={createDate} connectionType={connectionType} />
+        <NodeModal _id={_id} userId={userId} dataType={dataType} createDate={createDate} connectionType={connectionType} />
       </div>
     </div>
   )
@@ -115,12 +90,12 @@ const BuildSingleNode: React.FC<INodeProps> = ({ nodeId, userId, dataType, creat
 /**
  * Creates a node modal for each node. 
  * Uses local storage on click, to identify what node Id it is.
- * @param nodeId 
+ * @param _id 
  * @returns 
  */
-const NodeModal: React.FC<INodeProps> = ({ nodeId, userId, dataType, createDate, connectionType }) => {
+const NodeModal: React.FC<INodeProps> = ({ _id, userId, dataType, createDate, connectionType }) => {
   // Unique ID for each modal based on nodeId
-  const modalId = `nodeModal-${nodeId}`;
+  const modalId = `nodeModal-${_id}`;
 
   return (
     <div className="modal fade" id={modalId} tabIndex={-1} aria-labelledby={`${modalId}Label`} aria-hidden="true">
@@ -131,7 +106,7 @@ const NodeModal: React.FC<INodeProps> = ({ nodeId, userId, dataType, createDate,
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
-            <div> nodeId: {nodeId} </div>
+            <div> nodeId: {_id} </div>
             <div>userId: {userId} </div>
             <div>dataType: {dataType}</div>
             <div>createDate: {createDate}</div>
@@ -167,3 +142,4 @@ const FileUploadButton: React.FC = () => {
     </div>
   );
 };
+

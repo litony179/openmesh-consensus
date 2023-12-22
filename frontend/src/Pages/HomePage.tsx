@@ -1,12 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ModalCreateNode } from "./HomePageComponents/ModalCreateNode";
 import { ViewPublicNodes } from "./HomePageComponents/ViewPublicNodes";
-import { ViewOwnedNodes } from "./HomePageComponents/ViewOwnedNodes";
+import { GetOwnedNodes } from "./HomePageComponents/ViewOwnedNodes";
+import { clearElementsOn } from "./HomePageHelper";
+import { BuildSingleNode } from "./HomePageComponents/ViewOwnedNodes";
+import { GetAllUserNodes } from "../services/NodeServices/NodeService";
+// import { useUser } from '../Context/UserContext';
+interface INode {
+  _id: string; // Node id
+  userId: string;
+  dataType: string;
+  createDate: string;
+  connectionType: string;
+}
 export const HomePage = () => {
+  const [nodeList, setNodeList] = useState<INode[]>([]);
+
+  const userId: string = localStorage.getItem('userId')!;
+  const JWTToken: string = localStorage.getItem('JWTToken')!;
+
   const updateUserNodes = () => {
-    console.log("update user nodes");
-    document.getElementById("myTabContent")?.click();
+    // Clear insides on left box and right box
+    clearElementsOn('user-nodes-analytics');
+    // clearElementsOn('user-nodes-container');
   }
+
+  useEffect(() => {
+    const fetchNodes = async () => {
+      const nodes = await GetAllUserNodes(JWTToken, userId);
+      setNodeList(nodes);
+    };
+    fetchNodes();
+  }, [JWTToken, userId]);
   return (
     <>
       <div className="card text-center m-5 fullHeightDiv border-primary">
@@ -32,10 +57,44 @@ export const HomePage = () => {
             {ModalCreateNode()}
           </div>
           <div className="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab">
-            {ViewOwnedNodes()}
+            {/* <ViewOwnedNodesPage  OVER HERE/> */}
+            <div className="container-fluid mt-5 d-flex m-0 djustify-content-center align-items-center">
+              <div className="row w-100 mx-auto">
+                {/* Proportion is currently 4:7 (left: right column size) */}
+                <div id="user-nodes-analytics" className="container-fluid col-md-4 border border-danger mx-auto mh-c" aira-label='left-column'>Number of nodes + analytics here</div>
+                <div id="user-nodes-container" className="container-fluid col-md-7 border border-danger mx-auto mh-c p-4" aria-label='right-column'>
+                  <div>
+                    {/* {nodeList && nodeList.map(node => (
+                      <BuildSingleNode key={node._id} {...node} />
+                    ))} */}
+                    {nodeList.map(node => {
+                      console.log("Mapping node:", node);
+                      return <BuildSingleNode key={node._id} {...node} />;
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div >
+            </div>
           </div>
           <div className="tab-pane fade" id="public-node-tab-pane" role="tabpanel" aria-labelledby="public-node-tab">
-            {ViewPublicNodes()}
+            {/* {ViewPublicNodes()} */}
+            <div className="row w-100 mx-auto">
+              {/* Proportion is currently 4:7 (left: right column size) */}
+              <div id="user-nodes-analytics" className="container-fluid col-md-4 border border-danger mx-auto mh-c" aira-label='left-column'>Public nodes</div>
+              <div id="user-nodes-container" className="container-fluid col-md-7 border border-danger mx-auto mh-c p-4" aria-label='right-column'>
+                <div>
+                  {/* {nodeList && nodeList.map(node => (
+                      <BuildSingleNode key={node._id} {...node} />
+                    ))} */}
+                  {nodeList.map(node => {
+                    console.log("Mapping node:", node);
+                    return <BuildSingleNode key={node._id} {...node} />;
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
           <div className="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabIndex={0}>in construction</div>
         </div>
