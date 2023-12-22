@@ -71,12 +71,13 @@ export const BuildSingleNode: React.FC<INodeProps> = ({ _id, userId, dataType, c
 
   return (
     <div onClick={getId}>
-      <div className="card border-success mb-3" style={{ maxWidth: '18rem' }}>
-        <div className="card-body text-success text-start">
+      <div className="card border-success mb-3" style={{ maxWidth: '100%' }}>
+        <div className="card-body text-success">
+          <div className="text-start">
           <p className="card-text">nodeId:{_id}</p>
           <p className="card-text">type:{dataType}</p>
           <p className="card-text">connectionType:{connectionType}</p>
-
+          </div>
           <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#nodeModal-${_id}`}>
             Inspect
           </button>

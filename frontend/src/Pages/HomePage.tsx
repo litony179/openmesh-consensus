@@ -5,6 +5,8 @@ import { GetOwnedNodes } from "./HomePageComponents/ViewOwnedNodes";
 import { clearElementsOn } from "./HomePageHelper";
 import { BuildSingleNode } from "./HomePageComponents/ViewOwnedNodes";
 import { GetAllUserNodes } from "../services/NodeServices/NodeService";
+import consensusLogo from '../Components/consensus-logo.png';
+
 // import { useUser } from '../Context/UserContext';
 interface INode {
   _id: string; // Node id
@@ -19,11 +21,11 @@ export const HomePage = () => {
   const userId: string = localStorage.getItem('userId')!;
   const JWTToken: string = localStorage.getItem('JWTToken')!;
 
-  const updateUserNodes = () => {
-    // Clear insides on left box and right box
-    clearElementsOn('user-nodes-analytics');
-    // clearElementsOn('user-nodes-container');
-  }
+  // const updateUserNodes = () => {
+  //   // Clear insides on left box and right box
+  //   clearElementsOn('user-nodes-analytics');
+  //   // clearElementsOn('user-nodes-container');
+  // }
 
   useEffect(() => {
     const fetchNodes = async () => {
@@ -41,7 +43,7 @@ export const HomePage = () => {
               <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Create Node</button>
             </li>
             <li className="nav-item" role="presentation">
-              <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" onClick={updateUserNodes}>User Nodes</button>
+              <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" >User Nodes</button>
             </li>
             <li className="nav-item" role="presentation">
               <button className="nav-link" id="public-node-tab" data-bs-toggle="tab" data-bs-target="#public-node-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">public nodes</button>
@@ -61,7 +63,19 @@ export const HomePage = () => {
             <div className="container-fluid mt-5 d-flex m-0 djustify-content-center align-items-center">
               <div className="row w-100 mx-auto">
                 {/* Proportion is currently 4:7 (left: right column size) */}
-                <div id="user-nodes-analytics" className="container-fluid col-md-4 border border-danger mx-auto mh-c" aira-label='left-column'>Number of nodes + analytics here</div>
+                <div id="user-nodes-analytics" className="container-fluid col-md-4 border border-danger mx-auto mh-c" aira-label='left-column'>
+
+                <div>
+                  <div>
+                    <h3>Nodes Owned</h3>
+                  </div>
+                  <div> 
+                    <img src={consensusLogo} className="w-75 mt-4 rounded-circle" alt="inspector" />
+                  </div>
+                  <div className="card-title fs-2">{nodeList.length} nodes</div>
+                </div>
+
+                </div>
                 <div id="user-nodes-container" className="container-fluid col-md-7 border border-danger mx-auto mh-c p-4" aria-label='right-column'>
                   <div>
                     {/* {nodeList && nodeList.map(node => (
