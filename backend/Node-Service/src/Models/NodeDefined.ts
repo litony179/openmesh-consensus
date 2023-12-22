@@ -47,6 +47,6 @@ NodeSchema.statics.build = (fields: NodeFields) => {
   return new Node(fields);
 };
 
-const NodeModel = mongoose.model<NodeDocument, NodeModel>("Node", NodeSchema);
+const Node = mongoose.model<NodeDocument, NodeModel>("Node", NodeSchema);
 
 export { Node, BucketModel, BucketDocument };

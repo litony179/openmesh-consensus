@@ -3,6 +3,10 @@ import { ModalCreateNode } from "./HomePageComponents/ModalCreateNode";
 import { ViewPublicNodes } from "./HomePageComponents/ViewPublicNodes";
 import { ViewOwnedNodes } from "./HomePageComponents/ViewOwnedNodes";
 export const HomePage = () => {
+  const updateUserNodes = () => {
+    console.log("update user nodes");
+    document.getElementById("myTabContent")?.click();
+  }
   return (
     <>
       <div className="card text-center m-5 fullHeightDiv border-primary">
@@ -12,7 +16,7 @@ export const HomePage = () => {
               <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Create Node</button>
             </li>
             <li className="nav-item" role="presentation">
-              <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">User Nodes</button>
+              <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" onClick={updateUserNodes}>User Nodes</button>
             </li>
             <li className="nav-item" role="presentation">
               <button className="nav-link" id="public-node-tab" data-bs-toggle="tab" data-bs-target="#public-node-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">public nodes</button>

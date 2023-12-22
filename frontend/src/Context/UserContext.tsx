@@ -56,6 +56,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(jwtDecode(jwt));
     // set isAuthenticated
     setAuthenticated(true);
+    console.log(jwtDecode(jwt));
+    const userInfo:UserType = jwtDecode(jwt);
+    localStorage.setItem('userId', userInfo.UserInfo.userId);
   }
 
   const logoutUser = async () => {

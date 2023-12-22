@@ -10,7 +10,7 @@ export const ModalCreateNode = () => {
   // State for storing selection values
   const [dataType, setDataType] = useState('health');
   const [connectionType, setConnectionType] = useState('RESTful');
-  const { JWTToken } = useContext(UserContext);
+  const { user, JWTToken } = useContext(UserContext);
 
   // Handlers for selection changes
   const handleDataTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -23,7 +23,18 @@ export const ModalCreateNode = () => {
 
   // Handler for save changes
   const handleCreateNode = async () => {
-    const nodeSpecs = { dataType: dataType, connectionType: connectionType };
+    const userId = user?.UserInfo.userId || "";
+    const nodeSpecs = {
+      userId: userId, // TODO: change to user i
+      dataType: dataType,
+      connectionType: connectionType,
+      createDate: Date.now().toString(),
+      bucket: {
+        fileName: "",
+        fileExtension: "",
+        fileContent: "",
+      },
+    };
     await CreateNode(JWTToken, nodeSpecs);
   };
 

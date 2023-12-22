@@ -1,4 +1,17 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useContext, useEffect } from 'react';
+import { UserContext } from '../../Context/UserContext';
+import { GetAllUserNodes } from '../../services/NodeServices/NodeService';
+
+interface INode {
+  nodeId: string;
+  userId: string;
+  dataType: string;
+  createDate: string;
+  connectionType: string;
+}
+
+type INodeArray = INode[];
+
 
 /**
  * Functions Required:
@@ -13,32 +26,37 @@ import React, { ChangeEvent, useState } from 'react';
  */
 export const ViewOwnedNodes = () => {
   // State for storing selection values
-  const nodeList = [
-    {
-      nodeId: '1',
-      userId: 'node1',
-      dataType: 'type1',
-      createDate: 'data1',
-      connectionType: 'data1',
+  const { user, JWTToken } = useContext(UserContext);
+  const [nodeList, setNodeList] = useState<INodeArray>([]); // Add type annotation to nodeList
+  useEffect(() => {
+    const fetchNodes = async () => {
+      if (user?.UserInfo.userId && JWTToken) {
+        const nodes = await GetAllUserNodes(JWTToken, user.UserInfo.userId);
+        setNodeList(nodes);
+        console.log(nodes);
+      }
+    };
 
-    },
-    {
-      nodeId: '2',
-      userId: 'node2',
-      dataType: 'type2',
-      createDate: 'data2',
-      connectionType: 'data2',
+    fetchNodes();
+  }, [user, JWTToken]);
+  // const nodeList = [
+  //   {
+  //     nodeId: '1',
+  //     userId: 'node1',
+  //     dataType: 'type1',
+  //     createDate: 'data1',
+  //     connectionType: 'data1',
 
-    },
-    {
-      nodeId: '3',
-      userId: 'node3',
-      dataType: 'type3',
-      createDate: 'data3',
-      connectionType: 'data3',
+  //   },
+  //   {
+  //     nodeId: '2',
+  //     userId: 'node2',
+  //     dataType: 'type2',
+  //     createDate: 'data2',
+  //     connectionType: 'data2',
 
-    },
-  ];
+  //   },
+  // ];
 
   return (
     <>
@@ -47,9 +65,9 @@ export const ViewOwnedNodes = () => {
           {/* Proportion is currently 4:7 (left: right column size) */}
           <div className="container-fluid col-md-4 border border-danger mx-auto mh-c" aira-label='left-column'>Number of nodes + analytics here</div>
           <div className="container-fluid col-md-7 border border-danger mx-auto mh-c p-4" aria-label='right-column'>
-            {nodeList.map(node => (
+            {/* {nodeList.map(node => (
               <BuildSingleNode key={node.nodeId} {...node} />
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

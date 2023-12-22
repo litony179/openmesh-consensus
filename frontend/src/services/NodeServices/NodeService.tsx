@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
-import { UserContext } from '../../Context/UserContext';
 import { apiCallPost } from "./apiNodeService";
 
 interface INodeSpecs {
+  userId: string;
   dataType: string;
   connectionType: string;
+  createDate: string;
+  bucket?: {
+    fileName: string,
+    fileExtension: string,
+    fileContent: string,
+  };
 }
 
 /**
@@ -35,11 +40,11 @@ export const CreateNode = async (JWTToken: string, nodeSpecs: INodeSpecs) => {
 };
 
 // GET ALL USER NODES
-export const GetAllUserNodes = async (JWTToken: string, nodeSpecs: INodeSpecs) => {
+export const GetAllUserNodes = async (JWTToken: string, userId: string) => {
   console.log("Get all user nodes")
   try {
-    console.log(nodeSpecs)
-    const response = await apiCallPost('/fetchnodeUID', JWTToken, '');
+    console.log(userId)
+    const response = await apiCallPost('/fetchnodeUID', JWTToken, userId);
     console.log(response);
     if (!response.errors) { // backend does not send status 200, so we check from errors
       return response.userAccessToken; // return the JWT
