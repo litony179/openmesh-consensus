@@ -82,7 +82,7 @@ export const HomePage = () => {
                       <BuildSingleNode key={node._id} {...node} />
                     ))} */}
                     {nodeList.map(node => {
-                      console.log("Mapping node:", node);
+                      // console.log("Mapping node:", node);
                       return <BuildSingleNode key={node._id} {...node} />;
                     })}
                   </div>
@@ -103,7 +103,7 @@ export const HomePage = () => {
                       <BuildSingleNode key={node._id} {...node} />
                     ))} */}
                   {nodeList.map(node => {
-                    console.log("Mapping node:", node);
+                    // console.log("Mapping node:", node);
                     return <BuildSingleNode key={node._id} {...node} />;
                   })}
                 </div>

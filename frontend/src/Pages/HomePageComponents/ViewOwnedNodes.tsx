@@ -36,7 +36,7 @@ export const GetOwnedNodes = (userId: string, JWTToken: string) => {
       console.log('FETCHING NODES')
       const nodes = await GetAllUserNodes(JWTToken, userId);
       setNodeList(nodeList);
-      console.log(nodes);
+      // console.log(nodes);
     };
     fetchNodes();
   }, [JWTToken, userId]);
@@ -119,6 +119,7 @@ const NodeModal: React.FC<INodeProps> = ({ _id, userId, dataType, createDate, co
             <button type="button" className="btn btn-primary">Save changes</button>
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -48,3 +48,5 @@
 [12/12/2023 18:59:21.193]	c23d98a3-3805-4d1d-8f7c-3349808758f3	POST	undefined	/generateotp	[{"validation":"email","code":"invalid_string","message":"Please provide a valid email address.","path":["userEmail"]}]
 [19/12/2023 07:19:26.462]	964a306d-9034-4912-9dfb-5b70be58c3e2	POST	undefined	loginuser	User does not exist. Please register.
 [21/12/2023 15:11:53.597]	427e8d1b-b565-4463-823a-1ba3afe3bdea	POST	undefined	loginuser	User does not exist. Please register.
+[22/12/2023 18:49:23.012]	c567ddb7-856e-40eb-b231-703623b33e2b	POST	http://localhost:3001	/registeruser	[{"validation":"regex","code":"invalid_string","message":"You need to provide at least one lowercase character.","path":["userPassword"]}]
+[22/12/2023 18:51:06.958]	2751f781-fae8-490d-9ac2-3efa4e0e647d	POST	http://localhost:3001	/registeruser	[{"code":"custom","message":"your password does not match the above.","path":["userConfirmPassword"]}]
